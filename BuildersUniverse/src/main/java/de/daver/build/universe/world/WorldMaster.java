@@ -25,17 +25,19 @@ public class WorldMaster {
         this.importContainer = new File(Bukkit.getWorldContainer().getParentFile(), "importWorlds"); //TODO Variable path
     }
 
-    public World createWorld(String id, WorldGenerator generator) {
+    public World createWorld(String id, WorldGenerator generator, boolean load) {
         World world = new World(id, generator, new ArrayList<>());
-        createBukkitWorld(world);
         worlds.put(id, world);
         Main.instance().getDatabaseConnection().insert("");
+        createBukkitWorld(world);
+        unloadBukkitWorld(world);
+        if(load) WorldLoaderService.get().loadWorld(world.getId());
         return world;
     }
 
-    public World importWorld(String filePath, String id, WorldGenerator generator) {
+    public World importWorld(String filePath, String id, WorldGenerator generator, boolean load) {
         if(!FileUtils.copyFile(new File(importContainer, filePath), worldContainer)) return null;
-        return createWorld(id, generator);
+        return createWorld(id, generator, load);
     }
 
     private void createBukkitWorld(World world) {
@@ -59,6 +61,7 @@ public class WorldMaster {
     public boolean loadWorld(String id) {
         World world = getWorld(id);
         if(world == null) return false;
+        world.setLoaded(true);
         createBukkitWorld(world);
         Main.instance().getDatabaseConnection().update("");
         return true;
@@ -67,6 +70,7 @@ public class WorldMaster {
     public boolean unloadWorld(String id) {
         World world = getWorld(id);
         if(world == null) return false;
+        world.setLoaded(false);
         unloadBukkitWorld(world);
         Main.instance().getDatabaseConnection().update("");
         return true;
@@ -114,6 +118,7 @@ public class WorldMaster {
     public boolean teleportToWorld(Player player, String worldId) {
         World world = getWorld(worldId);
         if(world == null) return false;
+        if(!isPermitted(player, worldId)) return false;
         if(!world.isLoaded()) WorldLoaderService.get().loadWorld(worldId);
         org.bukkit.World bukkitWorld = Bukkit.getWorld(worldId);
         if(bukkitWorld == null) return false;

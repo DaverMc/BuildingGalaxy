@@ -29,6 +29,10 @@ public class World {
         return this.loaded;
     }
 
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
     public boolean isInIdle() {
         if(!isLoaded()) return false;
         return  idleTimestamp < 0;
