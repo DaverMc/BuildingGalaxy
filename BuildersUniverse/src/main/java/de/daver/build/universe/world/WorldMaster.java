@@ -2,30 +2,31 @@ package de.daver.build.universe.world;
 
 import de.daver.build.universe.Main;
 import de.daver.build.universe.util.FileUtils;
+import de.daver.build.universe.util.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorldMaster {
 
     private static WorldMaster instance;
     private final Map<String, World> worlds;
+    private final Map<UUID, String> invitedUsers;
     private final File worldContainer;
     private final File importContainer;
 
     private WorldMaster() {
+        this.invitedUsers = new HashMap<>();
         this.worlds = new HashMap<>();
         this.worldContainer = Bukkit.getWorldContainer();
         this.importContainer = new File(Bukkit.getWorldContainer().getParentFile(), "importWorlds"); //TODO Variable path
     }
 
     public World createWorld(String id, WorldGenerator generator) {
-        World world = new World(id, generator);
+        World world = new World(id, generator, new ArrayList<>());
         createBukkitWorld(world);
         worlds.put(id, world);
         Main.instance().getDatabaseConnection().insert("");
@@ -68,6 +69,54 @@ public class WorldMaster {
         if(world == null) return false;
         unloadBukkitWorld(world);
         Main.instance().getDatabaseConnection().update("");
+        return true;
+    }
+
+    public List<UUID> addAllowed(String id, UUID...userIds) {
+        World world = getWorld(id);
+        List<UUID> failedUserIds = new ArrayList<>();
+        if(world == null) return failedUserIds;
+        for(UUID uuid : userIds) {
+            if(!world.addUser(uuid)) failedUserIds.add(uuid);
+        }
+        Main.instance().getDatabaseConnection().update("");
+        return failedUserIds;
+    }
+
+    public List<UUID> removeAllowed(String id, UUID...userIds) {
+        World world = getWorld(id);
+        List<UUID> failedUserIds = new ArrayList<>();
+        if(world == null) return failedUserIds;
+        for(UUID uuid : userIds) {
+            if(!world.removeUser(uuid)) failedUserIds.add(uuid);
+        }
+        Main.instance().getDatabaseConnection().update("");
+        return failedUserIds;
+    }
+
+    public void inviteToWorld(UUID uuid, String worldId) {
+        invitedUsers.put(uuid, worldId);
+    }
+
+    public boolean isPermitted(Player player, String newWorldId) {
+        if(player.hasPermission(Permissions.WORLD_CHANGE_BYPASS)) return true;
+        World world = getWorld(newWorldId);
+        if(world == null) return false;
+        if(world.isPermitted(player.getUniqueId())) return true;
+        if(invitedUsers.containsKey(player.getUniqueId())) {
+            String invitedWorldId = invitedUsers.get(player.getUniqueId());
+            return invitedWorldId.equals(newWorldId);
+        }
+        return false;
+    }
+
+    public boolean teleportToWorld(Player player, String worldId) {
+        World world = getWorld(worldId);
+        if(world == null) return false;
+        if(!world.isLoaded()) WorldLoaderService.get().loadWorld(worldId);
+        org.bukkit.World bukkitWorld = Bukkit.getWorld(worldId);
+        if(bukkitWorld == null) return false;
+        player.teleport(bukkitWorld.getSpawnLocation());
         return true;
     }
 
