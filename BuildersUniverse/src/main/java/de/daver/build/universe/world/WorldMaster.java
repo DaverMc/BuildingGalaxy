@@ -1,5 +1,10 @@
 package de.daver.build.universe.world;
 
+import de.daver.build.universe.util.FileUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.WorldCreator;
+
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,40 +13,50 @@ public class WorldMaster {
 
     private static WorldMaster instance;
     private final Map<String, World> worlds;
+    private final File worldContainer;
+    private final File importContainer;
 
     private WorldMaster() {
         this.worlds = new HashMap<>();
+        this.worldContainer = Bukkit.getWorldContainer();
+        this.importContainer = new File(Bukkit.getWorldContainer().getParentFile(), "importWorlds"); //TODO Variable path
     }
 
     public World createWorld(String id, WorldGenerator generator) {
         World world = new World(id, generator);
+        Bukkit.createWorld(createWorldCreator(world));
         worlds.put(id, world);
         return world;
     }
 
+    private WorldCreator createWorldCreator(World world) {
+        return new WorldCreator(world.getId()).generator(world.getGenerator());
+    }
+
     public boolean deleteWorld(String id) {
-        World world = worlds.remove(id);
-        //Unload Spigot World
-        //Delete Dir
-        return world != null;
+        World world = getWorld(id);
+        if(world == null) return false;
+        Bukkit.unloadWorld(world.getId(), true);
+        if(!FileUtils.deleteFile(new File(worldContainer, world.getId()))) return false;
+        return worlds.remove(world.getId()) != null;
     }
 
     public World importWorld(String filePath, String id, WorldGenerator generator) {
-        //Copy Dir from ImportFolder
+        if(!FileUtils.copyFile(new File(importContainer, filePath), worldContainer)) return null;
         return createWorld(id, generator);
     }
 
     public boolean loadWorld(String id) {
         World world = getWorld(id);
         if(world == null) return false;
-        //Unload Spigot World
+        Bukkit.createWorld(createWorldCreator(world));
         return true;
     }
 
     public boolean unloadWorld(String id) {
         World world = getWorld(id);
         if(world == null) return false;
-        //Unload Spigot World
+        Bukkit.unloadWorld(world.getId(), true);
         return true;
     }
 
@@ -54,7 +69,7 @@ public class WorldMaster {
     }
 
     public void init() {
-        //Load all Spigot last used worlds
+        //Load all Spigot last used worlds from db
         WorldLoaderService.get().start();
     }
 

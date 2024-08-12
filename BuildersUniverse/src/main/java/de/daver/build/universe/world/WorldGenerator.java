@@ -1,4 +1,6 @@
 package de.daver.build.universe.world;
 
-public class WorldGenerator {
+import org.bukkit.generator.ChunkGenerator;
+
+public class WorldGenerator extends ChunkGenerator {
 }
