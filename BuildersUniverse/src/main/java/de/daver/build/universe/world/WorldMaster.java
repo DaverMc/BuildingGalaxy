@@ -39,7 +39,7 @@ public class WorldMaster {
     }
 
     private void createBukkitWorld(World world) {
-        WorldCreator creator = new WorldCreator(world.getId()).generator(world.getGenerator());
+        WorldCreator creator = world.getGenerator().toWorldCreator(world.getId());
         Bukkit.createWorld(creator);
     }
 
@@ -98,6 +98,7 @@ public class WorldMaster {
         invitedUsers.put(uuid, worldId);
     }
 
+    //For better usage maybe move to World.class
     public boolean isPermitted(Player player, String newWorldId) {
         if(player.hasPermission(Permissions.WORLD_CHANGE_BYPASS)) return true;
         World world = getWorld(newWorldId);
