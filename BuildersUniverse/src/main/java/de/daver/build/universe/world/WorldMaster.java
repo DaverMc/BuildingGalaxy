@@ -6,9 +6,10 @@ import java.util.Map;
 
 public class WorldMaster {
 
+    private static WorldMaster instance;
     private final Map<String, World> worlds;
 
-    public WorldMaster() {
+    private WorldMaster() {
         this.worlds = new HashMap<>();
     }
 
@@ -50,5 +51,20 @@ public class WorldMaster {
 
     public Collection<World> getWorlds() {
         return this.worlds.values();
+    }
+
+    public void init() {
+        //Load all Spigot last used worlds
+        WorldLoaderService.get().start();
+    }
+
+    public void terminate() {
+        WorldLoaderService.get().stop();
+        //Unload and save all worlds
+    }
+
+    public static WorldMaster get() {
+        if(instance == null) instance = new WorldMaster();
+        return instance;
     }
 }

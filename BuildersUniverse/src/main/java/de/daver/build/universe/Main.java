@@ -1,7 +1,6 @@
 package de.daver.build.universe;
 
 import de.daver.build.universe.util.MessageBuilder;
-import de.daver.build.universe.world.WorldMaster;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -26,9 +25,5 @@ public class Main extends JavaPlugin {
 
     public static Main instance() {
         return plugin;
-    }
-
-    public WorldMaster getWorldMaster() {
-        return null; //TODO
     }
 }
