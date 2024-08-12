@@ -1,5 +1,7 @@
 package de.daver.build.universe.world;
 
+import org.bukkit.entity.Player;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +13,7 @@ public class World {
     private long idleTimestamp = -1;
     private final List<UUID> allowedUsers;
 
-    public World(String id, WorldGenerator generator, List<UUID> allowedUsers) {
+    protected World(String id, WorldGenerator generator, List<UUID> allowedUsers) {
         this.id = id;
         this.generator = generator;
         this.allowedUsers = allowedUsers;
@@ -56,7 +58,11 @@ public class World {
         return allowedUsers.remove(uuid);
     }
 
-    public boolean isPermitted(UUID uuid) {
+    public boolean isAllowed(UUID uuid) {
         return allowedUsers.contains(uuid);
+    }
+
+    public boolean isPermitted(Player uuid) {
+        return WorldMaster.get().isPermitted(uuid, id);
     }
 }

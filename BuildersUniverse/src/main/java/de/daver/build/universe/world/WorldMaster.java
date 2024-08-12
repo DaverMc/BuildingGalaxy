@@ -102,12 +102,11 @@ public class WorldMaster {
         invitedUsers.put(uuid, worldId);
     }
 
-    //For better usage maybe move to World.class
     public boolean isPermitted(Player player, String newWorldId) {
         if(player.hasPermission(Permissions.WORLD_CHANGE_BYPASS)) return true;
         World world = getWorld(newWorldId);
         if(world == null) return false;
-        if(world.isPermitted(player.getUniqueId())) return true;
+        if(world.isAllowed(player.getUniqueId())) return true;
         if(invitedUsers.containsKey(player.getUniqueId())) {
             String invitedWorldId = invitedUsers.get(player.getUniqueId());
             return invitedWorldId.equals(newWorldId);
