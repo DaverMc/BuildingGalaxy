@@ -1,6 +1,8 @@
 package de.daver.build.universe.world;
 
 import de.daver.build.universe.Main;
+import de.daver.build.universe.sql.transformer.ResultSetTransformer;
+import de.daver.build.universe.sql.transformer.StringResultSetTransformer;
 import de.daver.build.universe.util.FileUtils;
 import de.daver.build.universe.util.Permissions;
 import org.bukkit.Bukkit;
@@ -28,7 +30,7 @@ public class WorldMaster {
     public World createWorld(String id, WorldGenerator generator, boolean load) {
         World world = new World(id, generator, new ArrayList<>());
         worlds.put(id, world);
-        Main.instance().getDatabaseConnection().insert("");
+        Main.instance().getDatabaseConnection().execute("INSERT INTO");
         createBukkitWorld(world);
         unloadBukkitWorld(world);
         if(load) WorldLoaderService.get().loadWorld(world.getId());
@@ -54,7 +56,7 @@ public class WorldMaster {
         if(world == null) return false;
         unloadBukkitWorld(world);
         if(!FileUtils.deleteFile(new File(worldContainer, world.getId()))) return false;
-        Main.instance().getDatabaseConnection().delete("");
+        Main.instance().getDatabaseConnection().execute("DELETE FROM ");
         return worlds.remove(world.getId()) != null;
     }
 
@@ -63,7 +65,7 @@ public class WorldMaster {
         if(world == null) return false;
         world.setLoaded(true);
         createBukkitWorld(world);
-        Main.instance().getDatabaseConnection().update("");
+        Main.instance().getDatabaseConnection().execute("UPDATE SET");
         return true;
     }
 
@@ -72,7 +74,7 @@ public class WorldMaster {
         if(world == null) return false;
         world.setLoaded(false);
         unloadBukkitWorld(world);
-        Main.instance().getDatabaseConnection().update("");
+        Main.instance().getDatabaseConnection().execute("UPDATE SET");
         return true;
     }
 
@@ -83,7 +85,7 @@ public class WorldMaster {
         for(UUID uuid : userIds) {
             if(!world.addUser(uuid)) failedUserIds.add(uuid);
         }
-        Main.instance().getDatabaseConnection().update("");
+        Main.instance().getDatabaseConnection().execute("UPDATE SET");
         return failedUserIds;
     }
 
@@ -94,7 +96,7 @@ public class WorldMaster {
         for(UUID uuid : userIds) {
             if(!world.removeUser(uuid)) failedUserIds.add(uuid);
         }
-        Main.instance().getDatabaseConnection().update("");
+        Main.instance().getDatabaseConnection().execute("UPDATE SET");
         return failedUserIds;
     }
 
@@ -134,11 +136,13 @@ public class WorldMaster {
     }
 
     public void init() {
-        List<World> worlds = Main.instance().getDatabaseConnection().select("");
-        for(World world : worlds) {
-            if(world.isLoaded()) createBukkitWorld(world);
-            this.worlds.put(world.getId(), world);
-        }
+        this.worlds.putAll(Main.instance().getDatabaseConnection()
+                .executeQuery("SELECT * FROM",
+                        ResultSetTransformer.hashMap(new StringResultSetTransformer("id"),
+                                new WorldResultSetTransformer())));
+        this.worlds.values().stream()
+                .filter(World::isLoaded)
+                .forEach(this::createBukkitWorld);
         WorldLoaderService.get().start();
     }
 

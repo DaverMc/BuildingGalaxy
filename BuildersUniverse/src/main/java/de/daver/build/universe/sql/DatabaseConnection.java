@@ -1,23 +1,65 @@
 package de.daver.build.universe.sql;
 
-import java.util.List;
+import de.daver.build.universe.sql.driver.DatabaseDriver;
+import de.daver.build.universe.sql.transformer.ResultSetTransformer;
+
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DatabaseConnection {
 
-    public <V> List<V> select(String sql, Object... params) {
-        return null;
+    private final DatabaseDriver driver;
+    private final Map<Connection, Boolean> connectionPool; //True if usable
+    private final int connectionPoolSize;
+
+    public DatabaseConnection(DatabaseDriver driver, int connectionPoolSize) {
+        this.driver = driver;
+        this.connectionPool = new HashMap<>();
+        this.connectionPoolSize = connectionPoolSize;
     }
 
-    public void insert(String sql, Object... params) {
-
+    public Connection getConnection() throws SQLException {
+        Connection connection = connectionPool.keySet().stream()
+                .filter(connectionPool::get)
+                .findFirst().orElse(null);
+        if(connection == null) {
+            connection = driver.createConnection();
+            connectionPool.put(connection, true);
+        }
+        connectionPool.put(connection, false);
+        return connection;
     }
 
-    public void delete(String sql, Object... params) {
-
+    public void releaseConnection(Connection connection) throws SQLException {
+        if(connectionPool.containsKey(connection)) connectionPool.put(connection, true);
+        while(connectionPool.size() > connectionPoolSize) {
+            Connection connect = connectionPool.keySet().stream()
+                    .filter(con -> !connectionPool.get(con))
+                    .findFirst().orElse(null);
+            if(connect == null) break;
+            connectionPool.remove(connect);
+        }
     }
 
-    public void update(String sql, Object... params) {
-
+    public <T> T executeQuery(String sql, ResultSetTransformer<T> transformer, Object...params) {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            return transformer.transform(resultSet);
+        } catch (SQLException exception)  {
+            return null;
+        }
     }
 
+    public boolean execute(String sql, Object...params) {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            return statement.execute();
+        } catch (SQLException exception)  {
+            return false;
+        }
+    }
 }
