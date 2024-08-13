@@ -1,75 +1,82 @@
 package de.daver.build.command;
 
+import de.daver.build.universe.world.WorldMaster;
+import org.bukkit.World;
+import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Test {
 
-    public void demoAction() {
+    public void demoAction(CommandSender sender, CommandInput input) {
         System.out.println("demoAction");
     }
 
-    public List<String> demoSuggestion() {
+    public List<String> demoSuggestion(CommandSender sender, CommandInput input) {
         return new ArrayList<>();
     }
 
     public void test() {
+        //Manages all world based subcommands
         new Command("world", "...")
                 //Create a new world
-                .addSubCommand(() -> new Command("create", "...")
-                                .addArgument(() -> new Command.Argument("id"), 0)
-                                .addArgument(() -> new Command.Argument("generator")
+                .addSubCommand(new Command("create", "...")
+                                .addArgument(new Argument("id"), 0)
+                                .addArgument(new Argument("generator")
                                         .suggestion(this::demoSuggestion)
-                                        .action(() -> System.out.println("DEMO!")), 1),
+                                        .action(this::demoAction), 1),
                         0)
                 //Import a world into the system
-                .addSubCommand(() -> new Command("import", "...")
-                                .addArgument(() -> new Command.Argument("id"), 0)
-                                .addArgument(() -> new Command.Argument("generator")
+                .addSubCommand(new Command("import", "...")
+                                .addArgument(new Argument("id"), 0)
+                                .addArgument(new Argument("generator")
                                         .suggestion(this::demoSuggestion), 1)
-                                .addArgument(() -> new Command.Argument("filepath")
+                                .addArgument(new Argument("filepath")
                                         .action(this::demoAction), 2),
                         0)
                 //Delete a world
-                .addSubCommand(() -> new Command("delete", "...")
-                                .addArgument(() -> new Command.Argument("id")
+                .addSubCommand(new Command("delete", "...")
+                                .addArgument(new Argument("world")
                                                 .suggestion(this::demoSuggestion)
                                                 .action(this::demoAction),
                                         0),
                         0)
                 //Lists all worlds
-                .addSubCommand(() -> new Command("list", "...")
+                .addSubCommand(new Command("list", "...")
                                 .action(this::demoAction),
                         0)
                 //Player permission command
-                .addSubCommand(() -> new Command("user", "...")
-                                .addArgument(() -> new Command.Argument("worldId").suggestion(this::demoSuggestion), 0)
+                .addSubCommand(new Command("user", "...")
+                                .addArgument(new Argument("world").suggestion(this::demoSuggestion), 0)
                                 //Add a player to a world
-                                .addSubCommand(() -> new Command("add", "...")
-                                                .addArgument(() -> new Command.Argument("player")
+                                .addSubCommand(new Command("add", "...")
+                                                .addArgument(new Argument("player")
                                                         .suggestion(this::demoSuggestion)
                                                         .action(this::demoAction), 0),
                                         1)
                                 //Remove a player from a world
-                                .addSubCommand(() -> new Command("remove", "...")
-                                                .addArgument(() -> new Command.Argument("player")
+                                .addSubCommand(new Command("remove", "...")
+                                                .addArgument(new Argument("player")
                                                         .suggestion(this::demoSuggestion)
                                                         .action(this::demoAction), 0),
                                         1)
                                 //Lists all allowed players of a world
-                                .addSubCommand(() -> new Command("list", "...")
+                                .addSubCommand(new Command("list", "...")
                                                 .action(this::demoAction),
                                         1),
                         0)
                 //Loads a world
-                .addSubCommand(() -> new Command("load", "...")
-                                .addArgument(() -> new Command.Argument("worldId")
+                .addSubCommand(new Command("load", "...")
+                                .addArgument(new Argument("world")
+                                        .type(Argument.Type.WORLD)
                                         .suggestion(this::demoSuggestion)
                                         .action(this::demoAction), 0),
                         0)
                 //Unloads a world
-                .addSubCommand(() -> new Command("unload", "...")
-                                .addArgument(() -> new Command.Argument("worldId")
+                .addSubCommand(new Command("unload", "...")
+                                .addArgument(new Argument("world")
+                                                .type(Argument.Type.WORLD)
                                                 .suggestion(this::demoSuggestion)
                                                 .action(this::demoAction),
                                         0),
