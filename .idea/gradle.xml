@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/BuildersUniverse" />
+            <option value="$PROJECT_DIR$/UniverseHub" />
           </set>
         </option>
       </GradleProjectSettings>
