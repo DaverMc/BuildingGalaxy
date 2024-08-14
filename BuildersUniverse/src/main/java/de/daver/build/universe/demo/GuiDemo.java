@@ -40,10 +40,12 @@ public class GuiDemo {
 
         //This Gui can switch to another gui
         Gui g4 = GuiBuilder.create("shop")
-                .rows(3)
+                .rows(4)
                 .applyLayout(new TopBottomLayout(item, item))
                 .staticItem(4, item)
                 .addGuiSwitch(4, "lootedItems")
+                .staticItem(0, item)
+                .addPageSwitch(0)
                 .build();
 
     }

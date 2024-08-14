@@ -6,6 +6,7 @@ import de.daver.build.universe.gui.action.GuiSwitchAction;
 import de.daver.build.universe.gui.action.PageSwitchAction;
 import de.daver.build.universe.gui.layout.GuiLayout;
 import de.daver.build.universe.item.Item;
+import de.daver.build.universe.util.ClickType;
 
 public class GuiBuilder {
 
@@ -42,16 +43,20 @@ public class GuiBuilder {
         return this;
     }
 
-    public GuiBuilder addInteraction(int slot, GuiAction action) {
+    public GuiBuilder addInteraction(int slot, GuiAction action, ClickType... clickTypes) {
         return this;
     }
 
-    public GuiBuilder addGuiSwitch(int slot, String guiId) {
-        return addInteraction(slot, new GuiSwitchAction(guiId));
+    public GuiBuilder addGuiSwitch(int slot, String guiId, ClickType... clickTypes) {
+        return addInteraction(slot, new GuiSwitchAction(guiId), clickTypes);
     }
 
-    public GuiBuilder addPageSwitch(int slot, boolean increase) {
-        return addInteraction(slot, new PageSwitchAction(increase));
+    public GuiBuilder addPageSwitch(int slot, boolean increase, ClickType... clickTypes) {
+        return addInteraction(slot, new PageSwitchAction(increase), clickTypes);
+    }
+
+    public GuiBuilder addPageSwitch(int slot) {
+        return addInteraction(slot, new PageSwitchAction());
     }
 
     public GuiBuilder closeOn(int slot) {
