@@ -1,7 +1,8 @@
 package de.daver.build.universe.lang;
 
 
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Messages {
 
@@ -12,12 +13,27 @@ public class Messages {
         return instance;
     }
 
-    private Messages() {
+    private final Map<Language, LanguageFile> languageFiles;
 
+    private Messages() {
+        this.languageFiles = new HashMap<>();
     }
 
-    public static MessageBuilder get(Locale locale, LanguageKey key) {
-        return null;
+    public static void init(Class<? extends LanguageKey> keyEnum, Language... languages) {
+        Messages inst = get();
+        inst.languageFiles.clear();
+        for (Language language : languages) {
+            LanguageFile file = new LanguageFile(language.getShortForm());
+            file.load();
+            file.update(keyEnum);
+            inst.languageFiles.put(language, file);
+        }
+    }
+
+    public static MessageBuilder get(Language language, LanguageKey key) {
+        LanguageFile file = get().languageFiles.get(language);
+        if (file == null) return new MessageBuilder(language.getShortForm());
+        return new MessageBuilder(file.getRawMessage(key));
     }
 
 }
