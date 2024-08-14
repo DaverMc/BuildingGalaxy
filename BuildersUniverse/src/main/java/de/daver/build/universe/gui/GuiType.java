@@ -1,6 +1,5 @@
 package de.daver.build.universe.gui;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
 
 public enum GuiType {

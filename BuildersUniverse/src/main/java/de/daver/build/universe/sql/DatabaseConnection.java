@@ -3,7 +3,10 @@ package de.daver.build.universe.sql;
 import de.daver.build.universe.sql.driver.DatabaseDriver;
 import de.daver.build.universe.sql.transformer.ResultSetTransformer;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 

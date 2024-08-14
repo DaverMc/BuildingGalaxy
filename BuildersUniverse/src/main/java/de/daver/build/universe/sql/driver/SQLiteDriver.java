@@ -1,9 +1,9 @@
 package de.daver.build.universe.sql.driver;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.io.File;
 
 public class SQLiteDriver implements DatabaseDriver {
 
