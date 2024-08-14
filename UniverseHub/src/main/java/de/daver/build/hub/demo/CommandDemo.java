@@ -23,6 +23,7 @@ public class CommandDemo {
         new Command("world", "...")
                 //Create a new world
                 .addSubCommand(new Command("create", "...")
+                        .alias("c")
                                 .addArgument(new Argument("id"), 0)
                                 .addArgument(new Argument("generator")
                                         .suggestion(this::demoSuggestion)

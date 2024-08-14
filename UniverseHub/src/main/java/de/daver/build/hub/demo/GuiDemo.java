@@ -7,6 +7,7 @@ import de.daver.build.hub.gui.GuiType;
 import de.daver.build.hub.gui.layout.BorderLayout;
 import de.daver.build.hub.gui.layout.BottomBarLayout;
 import de.daver.build.hub.item.Item;
+import de.daver.build.hub.util.ClickType;
 import de.daver.build.hub.util.Player;
 
 public class GuiDemo {
@@ -32,7 +33,7 @@ public class GuiDemo {
                 .applyLayout(new BottomBarLayout(item))
                 .closeOn(49)
                 .staticItem(48, item)
-                .addPageSwitch(48, false)
+                .addPageSwitch(48, false, ClickType.SHIFTED_LEFT, ClickType.LEFT)
                 .staticItem(50, item)
                 .addPageSwitch(50, true)
                 .build();
@@ -44,6 +45,7 @@ public class GuiDemo {
                 .addGuiSwitch(4, "lootedItems")
                 .staticItem(0, item)
                 .addPageSwitch(0)
+                .accessable(1, 3)
                 .build();
 
         Gui g5 = GuiBuilder.create(GuiType.BREWING_STAND)

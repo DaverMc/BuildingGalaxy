@@ -12,6 +12,8 @@ public class World {
     private boolean loaded;
     private long idleTimestamp = -1;
     private final List<UUID> allowedUsers;
+    //Öffnet eine Welt für alle oder schließt diese Welt und lässt nur die angegebenen Spieler rein
+    private boolean open;
 
     protected World(String id, WorldGenerator generator, List<UUID> allowedUsers) {
         this.id = id;

@@ -1,6 +1,6 @@
 package de.daver.build.universe;
 
-import de.daver.build.universe.sql.DatabaseConnection;
+import de.daver.build.hub.sql.DatabaseConnection;
 import de.daver.build.universe.world.WorldMaster;
 import org.bukkit.plugin.PluginLoadOrder;
 import org.bukkit.plugin.java.JavaPlugin;

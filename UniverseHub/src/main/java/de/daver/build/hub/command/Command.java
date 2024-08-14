@@ -7,6 +7,10 @@ public class Command {
 
     }
 
+    public Command alias(String...aliases) {
+        return this;
+    }
+
     public Command addSubCommand(Command command, int position) {
         return this;
     }

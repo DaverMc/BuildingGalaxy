@@ -16,7 +16,15 @@ public class LanguageFile {
     }
 
     public void update(Class<? extends LanguageKey> keyEnum) {
+        //Die Keys werden eingelesen
+        //Alle neuen Keys werden ganz unten hinzugefügt
+        //Alle alten Keys werden in der Description als ausgeschieden markiert
+        //und anschließend noch unter die neuen Keys geordnet werden.
+    }
 
+    private void writeKey(LanguageKey key) {
+        //Es soll erst in einer Zeile die Description stehen
+        //In der zweiten Zeile wird dann der Key als Property geschrieben
     }
 
     public String getRawMessage(LanguageKey key) {

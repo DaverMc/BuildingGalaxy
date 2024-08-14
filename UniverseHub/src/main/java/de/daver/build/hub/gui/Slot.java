@@ -13,7 +13,8 @@ public class Slot {
 
     private final Map<ClickType, List<GuiAction>> actions;
     private Item item;
-    private boolean locked;
+    private boolean locked; //statis item cannot be replaceable
+    private boolean accessible; //Spieler kann Item herausnehmen
 
     public Slot(Item item, Map<ClickType, List<GuiAction>> actions) {
         this.actions = actions;
@@ -33,6 +34,10 @@ public class Slot {
         if(this.locked) return false;
         this.item = item;
         return true;
+    }
+
+    public void setAccessible(boolean accessible) {
+        this.accessible = accessible;
     }
 
     public void lock() {

@@ -65,6 +65,10 @@ public class GuiBuilder {
         return addEvent(event);
     }
 
+    public GuiBuilder accessable(int...slots) {
+        return this;
+    }
+
     public Gui build() {
         return null;
     }

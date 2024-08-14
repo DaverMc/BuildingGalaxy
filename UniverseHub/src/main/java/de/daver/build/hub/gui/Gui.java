@@ -24,6 +24,12 @@ public class Gui {
         }
     }
 
+    public void setAccessable(boolean accessable, int...slots) {
+        for(int slot : slots) {
+            this.slots[slot].setAccessible(accessable);
+        }
+    }
+
     public Item getItem(int slot) {
         return this.slots[slot].getItem();
     }

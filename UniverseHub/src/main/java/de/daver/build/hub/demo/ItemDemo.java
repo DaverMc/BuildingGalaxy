@@ -9,12 +9,15 @@ import de.daver.build.hub.util.Player;
 
 public class ItemDemo {
 
+    //Flags fehlen
+    //Lore per LanguageKey
+    //Durability hinzufügen
     public void demo() {
         Item i1 = ItemBuilder.create(Material.STONE)
                 .displayName("Temporary Unavailable")
                 .addLoreLine("This is the first Line of the Lore!")
                 .addLoreLine("Do you wanna add some more?")
-                .addLoreLine("No problem heres another one.")
+                .addLoreLine("No problem here's another one.")
                 .build();
 
         Item i2 = ItemBuilder.create(Material.STONE)
