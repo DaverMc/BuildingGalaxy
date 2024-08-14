@@ -15,26 +15,17 @@ import org.bukkit.plugin.java.annotation.plugin.author.Author;
 @LoadOrder(PluginLoadOrder.STARTUP)
 public class Main extends JavaPlugin {
 
-    public static final String NAME = "BuildersUniverse";
-    public static final String LOG_PREFIX = NAME.toLowerCase();
-
     private static Main plugin;
 
     @Override
     public void onEnable() {
-        MessageBuilder.setDefaultPrefix(LOG_PREFIX);
-
-        //Database Connection herstellen
         WorldMaster.get().init();
-        getLogger().info(MessageBuilder.createMessage("Plugin enabled"));
     }
 
     @Override
     public void onDisable() {;
         plugin = null;
         WorldMaster.get().terminate();
-        //Database Connection schließen
-        getLogger().info(MessageBuilder.createMessage("Plugin disabled"));
     }
 
     public static Main instance() {
