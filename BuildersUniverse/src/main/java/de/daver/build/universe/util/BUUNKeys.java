@@ -1,5 +1,7 @@
 package de.daver.build.universe.util;
 
+import de.daver.build.hub.lang.LanguageKey;
+
 public enum BUUNKeys implements LanguageKey {
 
     TEST_MESSAGE("buun.test-message");
