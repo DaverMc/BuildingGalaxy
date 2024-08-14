@@ -1,10 +1,10 @@
-package de.daver.build.universe.world;
+package de.daver.build.hub.world;
 
+import de.daver.build.hub.sql.DatabaseConnection;
 import de.daver.build.hub.sql.transformer.ResultSetTransformer;
 import de.daver.build.hub.sql.transformer.StringResultSetTransformer;
 import de.daver.build.hub.util.FileUtils;
-import de.daver.build.universe.Main;
-import de.daver.build.universe.util.Permissions;
+import de.daver.build.hub.util.UniverseHubPermissions;
 import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
@@ -19,6 +19,8 @@ public class WorldMaster {
     private final Map<UUID, String> invitedUsers;
     private final File worldContainer;
     private final File importContainer;
+    
+    private DatabaseConnection dbConnection;
 
     private WorldMaster() {
         this.invitedUsers = new HashMap<>();
@@ -29,11 +31,11 @@ public class WorldMaster {
 
     public World createWorld(String id, WorldGenerator generator, boolean load) {
         World world = new World(id, generator, new ArrayList<>());
+        world.setLoaded(load);
         worlds.put(id, world);
-        Main.instance().getDatabaseConnection().execute("INSERT INTO");
+        dbConnection.execute("INSERT INTO");
         createBukkitWorld(world);
-        unloadBukkitWorld(world);
-        if(load) WorldLoaderService.get().loadWorld(world.getId());
+        if(!load) unloadBukkitWorld(world);
         return world;
     }
 
@@ -56,7 +58,7 @@ public class WorldMaster {
         if(world == null) return false;
         unloadBukkitWorld(world);
         if(!FileUtils.deleteFile(new File(worldContainer, world.getId()))) return false;
-        Main.instance().getDatabaseConnection().execute("DELETE FROM ");
+        dbConnection.execute("DELETE FROM ");
         return worlds.remove(world.getId()) != null;
     }
 
@@ -65,7 +67,7 @@ public class WorldMaster {
         if(world == null) return false;
         world.setLoaded(true);
         createBukkitWorld(world);
-        Main.instance().getDatabaseConnection().execute("UPDATE SET");
+        dbConnection.execute("UPDATE SET");
         return true;
     }
 
@@ -74,7 +76,7 @@ public class WorldMaster {
         if(world == null) return false;
         world.setLoaded(false);
         unloadBukkitWorld(world);
-        Main.instance().getDatabaseConnection().execute("UPDATE SET");
+        dbConnection.execute("UPDATE SET");
         return true;
     }
 
@@ -85,7 +87,7 @@ public class WorldMaster {
         for(UUID uuid : userIds) {
             if(!world.addUser(uuid)) failedUserIds.add(uuid);
         }
-        Main.instance().getDatabaseConnection().execute("UPDATE SET");
+        dbConnection.execute("UPDATE SET");
         return failedUserIds;
     }
 
@@ -96,7 +98,7 @@ public class WorldMaster {
         for(UUID uuid : userIds) {
             if(!world.removeUser(uuid)) failedUserIds.add(uuid);
         }
-        Main.instance().getDatabaseConnection().execute("UPDATE SET");
+        dbConnection.execute("UPDATE SET");
         return failedUserIds;
     }
 
@@ -105,7 +107,7 @@ public class WorldMaster {
     }
 
     public boolean isPermitted(Player player, String newWorldId) {
-        if(player.hasPermission(Permissions.WORLD_CHANGE_BYPASS)) return true;
+        if(player.hasPermission(UniverseHubPermissions.WORLD_ENTER_ALL)) return true;
         World world = getWorld(newWorldId);
         if(world == null) return false;
         if(world.isAllowed(player.getUniqueId())) return true;
@@ -120,7 +122,7 @@ public class WorldMaster {
         World world = getWorld(worldId);
         if(world == null) return false;
         if(!isPermitted(player, worldId)) return false;
-        if(!world.isLoaded()) WorldLoaderService.get().loadWorld(worldId);
+        if(!world.isLoaded()) loadWorld(worldId);
         org.bukkit.World bukkitWorld = Bukkit.getWorld(worldId);
         if(bukkitWorld == null) return false;
         player.teleport(bukkitWorld.getSpawnLocation());
@@ -136,18 +138,16 @@ public class WorldMaster {
     }
 
     public void init() {
-        this.worlds.putAll(Main.instance().getDatabaseConnection()
+        this.worlds.putAll(dbConnection
                 .executeQuery("SELECT * FROM",
                         ResultSetTransformer.hashMap(new StringResultSetTransformer("id"),
                                 new WorldResultSetTransformer())));
         this.worlds.values().stream()
                 .filter(World::isLoaded)
                 .forEach(this::createBukkitWorld);
-        WorldLoaderService.get().start();
     }
 
     public void terminate() {
-        WorldLoaderService.get().stop();
         worlds.values().stream().filter(World::isLoaded).forEach(this::unloadBukkitWorld);
     }
 

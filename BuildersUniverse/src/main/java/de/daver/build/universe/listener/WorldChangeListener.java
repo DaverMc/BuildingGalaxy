@@ -1,6 +1,6 @@
 package de.daver.build.universe.listener;
 
-import de.daver.build.universe.world.WorldMaster;
+import de.daver.build.hub.world.WorldMaster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

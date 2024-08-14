@@ -1,4 +1,4 @@
-package de.daver.build.universe.world;
+package de.daver.build.hub.world;
 
 import org.bukkit.WorldCreator;
 

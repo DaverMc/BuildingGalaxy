@@ -1,5 +1,7 @@
 package de.daver.build.universe.world;
 
+import de.daver.build.hub.world.World;
+import de.daver.build.hub.world.WorldMaster;
 import de.daver.build.universe.Main;
 import org.bukkit.Bukkit;
 

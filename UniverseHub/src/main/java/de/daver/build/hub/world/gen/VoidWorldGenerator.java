@@ -1,6 +1,6 @@
-package de.daver.build.universe.world.gen;
+package de.daver.build.hub.world.gen;
 
-import de.daver.build.universe.world.WorldGenerator;
+import de.daver.build.hub.world.WorldGenerator;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
 import org.bukkit.generator.ChunkGenerator;
