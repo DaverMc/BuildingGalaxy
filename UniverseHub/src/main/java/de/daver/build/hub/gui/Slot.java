@@ -2,7 +2,7 @@ package de.daver.build.hub.gui;
 
 import de.daver.build.hub.gui.action.GuiAction;
 import de.daver.build.hub.item.Item;
-import de.daver.build.universe.util.ClickType;
+import de.daver.build.hub.util.ClickType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

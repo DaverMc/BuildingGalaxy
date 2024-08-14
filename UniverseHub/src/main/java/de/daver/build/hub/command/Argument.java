@@ -1,8 +1,5 @@
 package de.daver.build.hub.command;
 
-import de.daver.build.universe.world.World;
-import de.daver.build.universe.world.WorldMaster;
-
 public class Argument {
 
     public Argument(String key) {
@@ -25,9 +22,7 @@ public class Argument {
 
         Type<Integer> INT = Integer::parseInt;
 
-        Argument.Type<World> WORLD = s -> WorldMaster.get().getWorld(s);
-
-                T transformString(String s);
+        T transformString(String s);
 
     }
 

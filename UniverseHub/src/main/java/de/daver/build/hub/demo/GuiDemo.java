@@ -7,7 +7,7 @@ import de.daver.build.hub.gui.GuiType;
 import de.daver.build.hub.gui.layout.BorderLayout;
 import de.daver.build.hub.gui.layout.BottomBarLayout;
 import de.daver.build.hub.item.Item;
-import de.daver.build.universe.util.Player;
+import de.daver.build.hub.util.Player;
 
 public class GuiDemo {
 

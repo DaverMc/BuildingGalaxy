@@ -1,6 +1,6 @@
 package de.daver.build.hub.item;
 
-import de.daver.build.universe.util.ClickType;
+import de.daver.build.hub.util.ClickType;
 
 public class ItemBuilder {
 

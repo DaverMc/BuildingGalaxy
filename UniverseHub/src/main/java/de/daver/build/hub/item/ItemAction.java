@@ -1,6 +1,6 @@
 package de.daver.build.hub.item;
 
-import de.daver.build.universe.util.Player;
+import de.daver.build.hub.util.Player;
 
 public interface ItemAction {
 

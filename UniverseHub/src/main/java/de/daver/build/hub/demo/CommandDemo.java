@@ -70,14 +70,14 @@ public class CommandDemo {
                 //Loads a world
                 .addSubCommand(new Command("load", "...")
                                 .addArgument(new Argument("world")
-                                        .type(Argument.Type.WORLD)
+                                        .type(Argument.Type.INT)
                                         .suggestion(this::demoSuggestion)
                                         .action(this::demoAction), 0),
                         0)
                 //Unloads a world
                 .addSubCommand(new Command("unload", "...")
                                 .addArgument(new Argument("world")
-                                                .type(Argument.Type.WORLD)
+                                                .type(Argument.Type.INT)
                                                 .suggestion(this::demoSuggestion)
                                                 .action(this::demoAction),
                                         0),

@@ -9,7 +9,7 @@ import de.daver.build.hub.gui.event.GuiEvent;
 import de.daver.build.hub.gui.event.GuiOpenEvent;
 import de.daver.build.hub.gui.layout.GuiLayout;
 import de.daver.build.hub.item.Item;
-import de.daver.build.universe.util.ClickType;
+import de.daver.build.hub.util.ClickType;
 
 public class GuiBuilder {
 

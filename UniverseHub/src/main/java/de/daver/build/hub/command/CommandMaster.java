@@ -1,6 +1,6 @@
 package de.daver.build.hub.command;
 
-import de.daver.build.universe.util.ReflectionUtils;
+import de.daver.build.hub.util.ReflectionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandMap;

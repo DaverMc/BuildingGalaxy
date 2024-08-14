@@ -1,10 +1,10 @@
 package de.daver.build.hub.demo;
 
-import de.daver.build.hub.lang.BUUNKeys;
 import de.daver.build.hub.lang.Language;
+import de.daver.build.hub.lang.LanguageKey;
 import de.daver.build.hub.lang.Messages;
 import de.daver.build.hub.lang.PlaceHolder;
-import de.daver.build.universe.util.Player;
+import de.daver.build.hub.util.Player;
 
 public class MessageDemo {
 
@@ -12,12 +12,22 @@ public class MessageDemo {
 
 
     public void demo() {
-        Messages.init(BUUNKeys.class, Language.BENGALI, Language.ENGLISH, Language.GERMAN);
+        Messages.init(DemoKeys.class, Language.BENGALI, Language.ENGLISH, Language.GERMAN);
 
-        Messages.get(Language.GERMAN, BUUNKeys.TEST_MESSAGE)
+        Messages.get(Language.GERMAN, DemoKeys.MSG)
                 .placeholder(new PlaceHolder("name", "Daver"))
                 .placeholder(new PlaceHolder("age", 4, PlaceHolder.Type.INTEGER))
                 .send(player);
+    }
+
+
+    public enum DemoKeys implements LanguageKey {
+        MSG;
+
+        @Override
+        public String path() {
+            return "msg";
+        }
     }
 
 }
