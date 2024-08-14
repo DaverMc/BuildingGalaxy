@@ -4,38 +4,28 @@ import de.daver.build.universe.gui.action.GuiAction;
 import de.daver.build.universe.gui.action.GuiCloseAction;
 import de.daver.build.universe.gui.action.GuiSwitchAction;
 import de.daver.build.universe.gui.action.PageSwitchAction;
+import de.daver.build.universe.gui.event.GuiCloseEvent;
+import de.daver.build.universe.gui.event.GuiEvent;
+import de.daver.build.universe.gui.event.GuiOpenEvent;
 import de.daver.build.universe.gui.layout.GuiLayout;
 import de.daver.build.universe.item.Item;
 import de.daver.build.universe.util.ClickType;
 
 public class GuiBuilder {
 
-    private GuiBuilder(String id) {
+    private GuiBuilder(GuiType type) {
 
-    }
-
-    public static GuiBuilder create(String id) {
-        return new GuiBuilder(id);
     }
 
     public GuiBuilder title(String title) {
         return this;
     }
 
-    public GuiBuilder type(GuiType type) {
-        return this;
-    }
-
-    public GuiBuilder rows(int rows) {
+    public GuiBuilder id(String id) {
         return this;
     }
 
     public GuiBuilder staticItem(int slot, Item item) {
-        return this;
-    }
-
-    //By default, every slot can be filled dynamical
-    public GuiBuilder dynamicItem(int slot, Item item) {
         return this;
     }
 
@@ -63,8 +53,28 @@ public class GuiBuilder {
         return addInteraction(slot, new GuiCloseAction());
     }
 
+    public GuiBuilder addEvent(GuiEvent event) {
+        return this;
+    }
+
+    public GuiBuilder addOpenEvent(GuiOpenEvent event) {
+        return addEvent(event);
+    }
+
+    public GuiBuilder addCloseEvent(GuiCloseEvent event) {
+        return addEvent(event);
+    }
+
     public Gui build() {
         return null;
     }
 
+
+    public static GuiBuilder create(int rows) {
+        return new GuiBuilder(GuiType.getByRows(rows));
+    }
+
+    public static GuiBuilder create(GuiType type) {
+        return new GuiBuilder(type);
+    }
 }
