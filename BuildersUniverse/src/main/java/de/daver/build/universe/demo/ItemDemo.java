@@ -1,5 +1,9 @@
-package de.daver.build.universe.item;
+package de.daver.build.universe.demo;
 
+import de.daver.build.universe.item.Enchantment;
+import de.daver.build.universe.item.Item;
+import de.daver.build.universe.item.ItemBuilder;
+import de.daver.build.universe.item.Material;
 import de.daver.build.universe.util.ClickType;
 import de.daver.build.universe.util.Player;
 

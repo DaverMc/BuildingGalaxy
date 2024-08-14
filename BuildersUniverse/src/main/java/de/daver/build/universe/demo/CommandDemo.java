@@ -1,5 +1,8 @@
-package de.daver.build.universe.command;
+package de.daver.build.universe.demo;
 
+import de.daver.build.universe.command.Argument;
+import de.daver.build.universe.command.Command;
+import de.daver.build.universe.command.CommandInput;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

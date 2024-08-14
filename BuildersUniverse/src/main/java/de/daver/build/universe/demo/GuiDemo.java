@@ -1,5 +1,8 @@
-package de.daver.build.universe.gui;
+package de.daver.build.universe.demo;
 
+import de.daver.build.universe.gui.Gui;
+import de.daver.build.universe.gui.GuiBuilder;
+import de.daver.build.universe.gui.GuiType;
 import de.daver.build.universe.gui.layout.BorderLayout;
 import de.daver.build.universe.gui.layout.BottomBarLayout;
 import de.daver.build.universe.gui.layout.TopBottomLayout;
