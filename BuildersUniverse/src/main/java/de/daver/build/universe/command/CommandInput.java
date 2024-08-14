@@ -1,4 +1,4 @@
-package de.daver.build.command;
+package de.daver.build.universe.command;
 
 public interface CommandInput {
 

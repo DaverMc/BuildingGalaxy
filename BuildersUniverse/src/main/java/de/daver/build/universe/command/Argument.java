@@ -1,4 +1,4 @@
-package de.daver.build.command;
+package de.daver.build.universe.command;
 
 import de.daver.build.universe.world.World;
 import de.daver.build.universe.world.WorldMaster;

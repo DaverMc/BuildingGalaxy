@@ -1,4 +1,4 @@
-package de.daver.build.command;
+package de.daver.build.universe.command;
 
 
 public class Command {
@@ -17,6 +17,10 @@ public class Command {
 
     public Command action(Action action) {
         return this;
+    }
+
+    public String name() {
+        return null;
     }
 
 }

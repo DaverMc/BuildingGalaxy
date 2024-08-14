@@ -1,13 +1,11 @@
-package de.daver.build.command;
+package de.daver.build.universe.command;
 
-import de.daver.build.universe.world.WorldMaster;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class CommandDemo {
 
     public void demoAction(CommandSender sender, CommandInput input) {
         System.out.println("demoAction");
