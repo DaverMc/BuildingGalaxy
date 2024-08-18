@@ -4,6 +4,6 @@ import org.bukkit.command.CommandSender;
 
 public interface Action {
 
-    void execute(CommandSender sender, CommandInput input);
+    boolean execute(CommandSender sender, CommandInput input);
 
 }
