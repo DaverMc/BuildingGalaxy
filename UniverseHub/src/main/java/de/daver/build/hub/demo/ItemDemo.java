@@ -5,7 +5,7 @@ import de.daver.build.hub.item.Enchantment;
 import de.daver.build.hub.item.Item;
 import de.daver.build.hub.item.Material;
 import de.daver.build.hub.util.ClickType;
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 
 public class ItemDemo {
 
@@ -39,7 +39,7 @@ public class ItemDemo {
                 .build();
     }
 
-    public void demoAction(Player holder, Item item) {
+    public void demoAction(User holder, Item item) {
         holder.sendMessage("The wand has chosen you!");
     }
 

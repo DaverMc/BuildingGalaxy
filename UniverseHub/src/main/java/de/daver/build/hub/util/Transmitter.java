@@ -4,14 +4,14 @@ import java.util.Collection;
 
 public interface Transmitter {
 
-    void send(Player player);
+    void send(User user);
 
-    default void broadcast(Collection<Player> players) {
-        players.forEach(this::send);
+    default void broadcast(Collection<User> users) {
+        users.forEach(this::send);
     }
 
-    default void broadcast(Player... players) {
-        for (Player player : players) send(player);
+    default void broadcast(User... users) {
+        for (User user : users) send(user);
     }
 
 }

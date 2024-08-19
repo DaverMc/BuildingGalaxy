@@ -1,6 +1,6 @@
 package de.daver.build.hub.scoreboard;
 
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 import de.daver.build.hub.util.Transmitter;
 
 public class ActionBar implements Transmitter {
@@ -10,7 +10,7 @@ public class ActionBar implements Transmitter {
     }
 
     @Override
-    public void send(Player player) {
+    public void send(User user) {
 
     }
 

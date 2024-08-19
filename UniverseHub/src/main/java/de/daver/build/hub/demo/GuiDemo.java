@@ -8,7 +8,7 @@ import de.daver.build.hub.gui.layout.BorderLayout;
 import de.daver.build.hub.gui.layout.BottomBarLayout;
 import de.daver.build.hub.item.Item;
 import de.daver.build.hub.util.ClickType;
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 
 public class GuiDemo {
 
@@ -55,7 +55,7 @@ public class GuiDemo {
 
     }
 
-    public void demoEvent(Gui g, Player p) {
+    public void demoEvent(Gui g, User p) {
         p.sendMessage("Event!");
     }
 }

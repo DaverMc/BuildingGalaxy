@@ -6,4 +6,6 @@ public interface PlattformGate {
 
     CommandRegistrator getCommandRegistrator();
 
+    UserManager getUserManager();
+
 }

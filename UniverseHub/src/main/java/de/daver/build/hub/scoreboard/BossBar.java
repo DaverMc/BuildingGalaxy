@@ -1,10 +1,9 @@
 package de.daver.build.hub.scoreboard;
 
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 import de.daver.build.hub.util.Transmitter;
-import org.bukkit.Color;
 
-import java.util.List;
+import java.awt.*;
 
 public class BossBar implements Transmitter {
 
@@ -36,7 +35,7 @@ public class BossBar implements Transmitter {
 
     }
 
-    public void send(Player player) {
+    public void send(User user) {
 
     }
 

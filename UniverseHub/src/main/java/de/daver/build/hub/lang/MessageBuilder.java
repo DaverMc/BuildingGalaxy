@@ -1,6 +1,6 @@
 package de.daver.build.hub.lang;
 
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 
 import java.util.Collection;
 
@@ -14,11 +14,11 @@ public class MessageBuilder {
         return this;
     }
 
-    public void send(Player player) {
+    public void send(User user) {
 
     }
 
-    public void broadcast(Collection<Player> players) {
+    public void broadcast(Collection<User> users) {
 
     }
 

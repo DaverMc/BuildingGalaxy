@@ -1,9 +1,7 @@
 package de.daver.build.hub.scoreboard;
 
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 import de.daver.build.hub.util.Transmitter;
-
-import java.util.Collection;
 
 public class Title implements Transmitter {
 
@@ -13,7 +11,7 @@ public class Title implements Transmitter {
 
     }
 
-    public void send(Player player) {
+    public void send(User user) {
 
     }
 

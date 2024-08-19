@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     //Minecraft dependecies
-    implementation 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
+    //implementation 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
 
     //Database Dependencies
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'

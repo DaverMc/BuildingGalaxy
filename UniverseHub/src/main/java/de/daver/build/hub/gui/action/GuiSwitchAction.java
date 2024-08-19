@@ -1,6 +1,6 @@
 package de.daver.build.hub.gui.action;
 
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 
 public class GuiSwitchAction implements GuiAction {
 
@@ -9,7 +9,7 @@ public class GuiSwitchAction implements GuiAction {
     }
 
     @Override
-    public void execute(Player clicker) {
+    public void execute(User clicker) {
 
     }
 }

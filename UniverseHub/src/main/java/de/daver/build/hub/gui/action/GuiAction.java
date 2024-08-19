@@ -1,9 +1,9 @@
 package de.daver.build.hub.gui.action;
 
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 
 public interface GuiAction {
 
-    void execute(Player clicker);
+    void execute(User clicker);
 
 }

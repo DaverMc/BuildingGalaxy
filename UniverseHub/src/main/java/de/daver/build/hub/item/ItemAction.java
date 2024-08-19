@@ -1,9 +1,9 @@
 package de.daver.build.hub.item;
 
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 
 public interface ItemAction {
 
-    void execute(Player holder, Item item);
+    void execute(User holder, Item item);
 
 }

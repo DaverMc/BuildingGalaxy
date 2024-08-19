@@ -4,13 +4,13 @@ import de.daver.build.hub.lang.Language;
 import de.daver.build.hub.lang.LanguageKey;
 import de.daver.build.hub.lang.Messages;
 import de.daver.build.hub.lang.PlaceHolder;
-import de.daver.build.hub.util.Player;
+import de.daver.build.hub.util.User;
 
 import java.util.ArrayList;
 
 public class MessageDemo {
 
-    Player player = null;
+    User user = null;
 
 
     public void demo() {
@@ -19,7 +19,7 @@ public class MessageDemo {
         Messages.get(Language.GERMAN, DemoKeys.MSG)
                 .placeholder(new PlaceHolder("name", "Daver"))
                 .placeholder(new PlaceHolder("age", 4, PlaceHolder.Type.INTEGER))
-                .send(player);
+                .send(user);
 
         Messages.get(Language.ENGLISH, DemoKeys.MSG)
                 .broadcast(new ArrayList<>());
