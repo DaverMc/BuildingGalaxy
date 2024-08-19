@@ -1,4 +1,4 @@
-package de.daver.build.hub.world;
+package de.daver.build.hub.core.world;
 
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.sql.DatabaseConnection;
@@ -6,7 +6,6 @@ import de.daver.build.hub.api.util.User;
 import de.daver.build.hub.api.world.World;
 import de.daver.build.hub.api.world.WorldGenerator;
 import de.daver.build.hub.api.world.WorldMaster;
-import de.daver.build.hub.core.sql.DatabaseConnectionImpl;
 import de.daver.build.hub.api.sql.ResultSetTransformer;
 import de.daver.build.hub.core.sql.transformer.StringResultSetTransformer;
 import de.daver.build.hub.core.util.FileUtils;
@@ -45,8 +44,8 @@ public class WorldMasterImpl implements WorldMaster {
         world.setLoaded(load);
         worlds.put(id, world);
         dbConnection.execute("INSERT INTO");
-        UniverseHub.connector().getWorldSlave().createWorld(world);
-        if(!load) UniverseHub.connector().getWorldSlave().unloadWorld(world);
+        UniverseHub.gate().getWorldSlave().createWorld(world);
+        if(!load) UniverseHub.gate().getWorldSlave().unloadWorld(world);
         return world;
     }
 
@@ -58,7 +57,7 @@ public class WorldMasterImpl implements WorldMaster {
     public boolean deleteWorld(String id) {
         World world = getWorld(id);
         if(world == null) return false;
-        UniverseHub.connector().getWorldSlave().unloadWorld(world);
+        UniverseHub.gate().getWorldSlave().unloadWorld(world);
         if(!FileUtils.deleteFile(new File(worldContainer, world.getId()))) return false;
         dbConnection.execute("DELETE FROM ");
         return worlds.remove(world.getId()) != null;
@@ -68,7 +67,7 @@ public class WorldMasterImpl implements WorldMaster {
         World world = getWorld(id);
         if(world == null) return false;
         world.setLoaded(true);
-        UniverseHub.connector().getWorldSlave().createWorld(world);
+        UniverseHub.gate().getWorldSlave().createWorld(world);
         dbConnection.execute("UPDATE SET");
         return true;
     }
@@ -77,7 +76,7 @@ public class WorldMasterImpl implements WorldMaster {
         World world = getWorld(id);
         if(world == null) return false;
         world.setLoaded(false);
-        UniverseHub.connector().getWorldSlave().unloadWorld(world);
+        UniverseHub.gate().getWorldSlave().unloadWorld(world);
         dbConnection.execute("UPDATE SET");
         return true;
     }
@@ -125,7 +124,7 @@ public class WorldMasterImpl implements WorldMaster {
         if(world == null) return false;
         if(!isPermitted(user, worldId)) return false;
         if(!world.isLoaded()) loadWorld(worldId);
-        return UniverseHub.connector().getWorldSlave().sendTo(user, world);
+        return UniverseHub.gate().getWorldSlave().sendTo(user, world);
     }
 
     public World getWorld(String id) {
@@ -143,12 +142,12 @@ public class WorldMasterImpl implements WorldMaster {
                                 new WorldResultSetTransformer())));
         this.worlds.values().stream()
                 .filter(World::isLoaded)
-                .forEach(UniverseHub.connector().getWorldSlave()::createWorld);
+                .forEach(UniverseHub.gate().getWorldSlave()::createWorld);
     }
 
     public void clear() {
         worlds.values().stream()
                 .filter(World::isLoaded)
-                .forEach(UniverseHub.connector().getWorldSlave()::unloadWorld);
+                .forEach(UniverseHub.gate().getWorldSlave()::unloadWorld);
     }
 }

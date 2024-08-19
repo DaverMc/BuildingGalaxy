@@ -1,4 +1,4 @@
-package de.daver.build.hub.world;
+package de.daver.build.hub.core.world;
 
 import de.daver.build.hub.api.sql.ResultSetTransformer;
 

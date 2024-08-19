@@ -35,7 +35,7 @@ public class SpigotCommand extends BukkitCommand{
             Command subCommand = this.command.getSubCommand(listArgs);
             CommandInputImpl input = new CommandInputImpl(subCommand, listArgs);
             Action action = subCommand.getAction(listArgs.size() - 1);
-            User user = UniverseHub.connector().getUserManager().getPlayer(((Player) sender).getUniqueId());
+            User user = UniverseHub.gate().getUserManager().getPlayer(((Player) sender).getUniqueId());
             return action.execute(user, input);
         }
 
@@ -44,7 +44,7 @@ public class SpigotCommand extends BukkitCommand{
             List<String> listArgs = Arrays.asList(args);
             Command subCommand = this.command.getSubCommand(listArgs);
             CommandInputImpl input = new CommandInputImpl(subCommand, listArgs);
-            User user = UniverseHub.connector().getUserManager().getPlayer(((Player) sender).getUniqueId());
+            User user = UniverseHub.gate().getUserManager().getPlayer(((Player) sender).getUniqueId());
             return subCommand.getArguments(listArgs.size() - 1).stream()
                     .map(Argument::getSuggestion)
                     .map(suggestion -> suggestion.getSuggestions(user, input))

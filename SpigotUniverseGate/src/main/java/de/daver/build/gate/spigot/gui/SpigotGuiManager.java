@@ -21,7 +21,7 @@ public class SpigotGuiManager implements GuiManager {
         Inventory inventory = Bukkit.createInventory(player, type);
         //if(dynamicItemSupplier != null) gui.fillItems(dynamicItemSupplier.get()); //TODO
         for (int i = 0; i < gui.getType().getSlotCount(); i++) {
-            ItemStack itemStack = (ItemStack) UniverseHub.connector().getItemManager().transform(gui.getItem(i));
+            ItemStack itemStack = (ItemStack) UniverseHub.gate().getItemManager().transform(gui.getItem(i));
             inventory.setItem(i, itemStack);
         }
         player.openInventory(inventory);

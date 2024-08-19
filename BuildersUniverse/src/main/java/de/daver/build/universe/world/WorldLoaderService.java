@@ -3,9 +3,7 @@ package de.daver.build.universe.world;
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.gate.SchedulerMaster;
 import de.daver.build.hub.api.world.World;
-import de.daver.build.hub.world.WorldMasterImpl;
-import de.daver.build.universe.BuildersUniverseSpigotGate;
-import org.bukkit.Bukkit;
+import de.daver.build.hub.core.world.WorldMasterImpl;
 
 import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
@@ -60,7 +58,7 @@ public class WorldLoaderService implements Runnable{
 
     public void start() {
         if(task != null) return;
-        this.task = UniverseHub.connector().getSchedulerMaster().scheduleRepeating(this, taskIntervall, TimeUnit.MILLISECONDS);
+        this.task = UniverseHub.gate().getSchedulerMaster().scheduleRepeating(this, taskIntervall, TimeUnit.MILLISECONDS);
     }
 
     public void stop() {

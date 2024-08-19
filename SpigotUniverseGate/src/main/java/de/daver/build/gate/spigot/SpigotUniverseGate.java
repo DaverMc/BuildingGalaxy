@@ -11,7 +11,7 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
     public SpigotUniverseGate(UniverseAdapter adapter) {
         this.spigotInstance = this;
-        UniverseHub.setConnector(this);
+        UniverseHub.setGate(this);
         this.adapter = adapter;
     }
 
@@ -52,6 +52,11 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
     @Override
     public WorldSlave getWorldSlave() {
+        return null;
+    }
+
+    @Override
+    public SchedulerMaster getSchedulerMaster() {
         return null;
     }
 

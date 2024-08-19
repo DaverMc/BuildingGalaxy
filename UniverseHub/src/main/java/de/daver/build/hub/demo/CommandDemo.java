@@ -41,7 +41,7 @@ public class CommandDemo {
                         .build())
                 .build();
 
-        UniverseHub.connector().getCommandRegistrator().registerCommand(command);
+        UniverseHub.gate().getCommandRegistrator().registerCommand(command);
     }
 
 }
