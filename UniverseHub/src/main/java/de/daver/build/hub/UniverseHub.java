@@ -1,7 +1,7 @@
 package de.daver.build.hub;
 
-import de.daver.build.hub.gate.PlattformGate;
-import de.daver.build.hub.gate.UniverseAdapter;
+import de.daver.build.hub.api.gate.PlattformGate;
+import de.daver.build.hub.api.gate.UniverseAdapter;
 
 public class UniverseHub {
 

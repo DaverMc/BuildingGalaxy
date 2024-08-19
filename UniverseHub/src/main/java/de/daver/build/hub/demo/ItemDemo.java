@@ -1,9 +1,10 @@
 package de.daver.build.hub.demo;
 
-import de.daver.build.hub.item.ItemBuilder;
-import de.daver.build.hub.item.Enchantment;
-import de.daver.build.hub.item.Item;
-import de.daver.build.hub.item.Material;
+import de.daver.build.hub.api.item.ItemBuilder;
+import de.daver.build.hub.api.util.EnchantmentBuilder;
+import de.daver.build.hub.item.ItemBuilderImpl;
+import de.daver.build.hub.api.item.Item;
+import de.daver.build.hub.api.item.Material;
 import de.daver.build.hub.util.ClickType;
 import de.daver.build.hub.util.User;
 
@@ -29,7 +30,7 @@ public class ItemDemo {
         Item i3 = ItemBuilder.create(Material.STONE)
                 .displayName("Spiky Stone")
                 .addLoreLine("This one is enchanted")
-                .enchant(new Enchantment("sharpness", 10))
+                .enchant(EnchantmentBuilder.create("sharpness").level(10).build())
                 .build();
 
         Item i4 = ItemBuilder.create(Material.STONE)

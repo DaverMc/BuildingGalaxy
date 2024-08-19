@@ -1,6 +1,6 @@
 package de.daver.build.hub.api.command;
 
-import de.daver.build.hub.command.ArgumentBuilderImpl;
+import de.daver.build.hub.core.command.ArgumentBuilderImpl;
 
 public interface ArgumentBuilder {
 

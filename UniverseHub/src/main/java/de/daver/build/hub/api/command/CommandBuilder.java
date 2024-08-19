@@ -1,6 +1,6 @@
 package de.daver.build.hub.api.command;
 
-import de.daver.build.hub.command.CommandBuilderImpl;
+import de.daver.build.hub.core.command.CommandBuilderImpl;
 
 public interface CommandBuilder {
 

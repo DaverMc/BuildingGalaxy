@@ -5,20 +5,21 @@ import de.daver.build.hub.api.command.ArgumentBuilder;
 import de.daver.build.hub.api.command.ArgumentType;
 import de.daver.build.hub.api.command.Command;
 import de.daver.build.hub.api.command.CommandBuilder;
-import de.daver.build.hub.command.*;
-import org.bukkit.command.CommandSender;
+
+import de.daver.build.hub.core.command.CommandInputImpl;
+import de.daver.build.hub.util.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandDemo {
 
-    public boolean demoAction(CommandSender sender, CommandInputImpl input) {
+    public boolean demoAction(User user, CommandInputImpl input) {
         System.out.println("demoAction");
         return true;
     }
 
-    public List<String> demoSuggestion(CommandSender sender, CommandInputImpl input) {
+    public List<String> demoSuggestion(User user, CommandInputImpl input) {
         return new ArrayList<>();
     }
 

@@ -1,10 +1,7 @@
 package de.daver.build.gate.spigot;
 
 import de.daver.build.hub.UniverseHub;
-import de.daver.build.hub.gate.CommandRegistrator;
-import de.daver.build.hub.gate.PlattformGate;
-import de.daver.build.hub.gate.UniverseAdapter;
-import de.daver.build.hub.gate.UserManager;
+import de.daver.build.hub.api.gate.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
@@ -40,6 +37,16 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
     @Override
     public UserManager getUserManager() {
+        return null;
+    }
+
+    @Override
+    public GuiManager getGuiManager() {
+        return null;
+    }
+
+    @Override
+    public ItemManager getItemManager() {
         return null;
     }
 

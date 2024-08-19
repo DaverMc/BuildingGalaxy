@@ -1,7 +1,7 @@
 package de.daver.build.gate.spigot.demo;
 
 import de.daver.build.hub.UniverseHub;
-import de.daver.build.hub.gate.UniverseAdapter;
+import de.daver.build.hub.api.gate.UniverseAdapter;
 
 public class DemoAdapter implements UniverseAdapter {
 
