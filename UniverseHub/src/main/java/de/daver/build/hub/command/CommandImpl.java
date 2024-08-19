@@ -1,11 +1,13 @@
 package de.daver.build.hub.command;
 
 
-import de.daver.build.hub.command.defaults.SubCommandArgument;
+import de.daver.build.hub.api.command.Action;
+import de.daver.build.hub.api.command.Argument;
+import de.daver.build.hub.api.command.Command;
 
 import java.util.*;
 
-public class Command {
+public class CommandImpl implements Command {
 
     private final Map<String, Argument> arguments;
     private final List<String> aliases;
@@ -15,36 +17,16 @@ public class Command {
     private Action action;
     private String description;
 
-    public Command(String name) {
-        this(name, null);
-    }
-
-    public Command(String name, String permission) {
-        this.arguments = new HashMap<>();
-        this.aliases = new ArrayList<>();
+    public CommandImpl(String name, String permission, String description, Action action,
+                       List<String> alias, Map<String, Argument> arguments) {
+        this.arguments = arguments;
+        this.aliases = alias;
         this.name = name;
         this.permission = permission;
-    }
-
-    public Command addAlias(String...aliases) {
-        this.aliases.addAll(Arrays.asList(aliases));
-        return this;
-    }
-
-    public Command addArgument(Argument argument) {
-        this.arguments.put(argument.getKey(), argument);
-        return this;
-    }
-
-    public Command setAction(Action action) {
-        this.action = action;
-        return this;
-    }
-
-    public Command setDescription(String description) {
         this.description = description;
-        return this;
+        this.action = action;
     }
+
 
     public String name() {
         return this.name;

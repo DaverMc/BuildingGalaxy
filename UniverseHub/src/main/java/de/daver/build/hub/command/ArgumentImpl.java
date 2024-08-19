@@ -1,6 +1,11 @@
 package de.daver.build.hub.command;
 
-public class Argument {
+import de.daver.build.hub.api.command.Action;
+import de.daver.build.hub.api.command.Argument;
+import de.daver.build.hub.api.command.ArgumentType;
+import de.daver.build.hub.api.command.Suggestion;
+
+public class ArgumentImpl implements Argument {
 
     private final String key;
     private final int position;
@@ -8,24 +13,12 @@ public class Argument {
     private Suggestion suggestion;
     private Action action;
 
-    public Argument(String key, int position) {
+    public ArgumentImpl(String key, int position, ArgumentType<?> type, Suggestion suggestion, Action action) {
         this.key = key;
         this.position = position;
-    }
-
-    public Argument suggestion(Suggestion suggestion) {
-        this.suggestion = suggestion;
-        return this;
-    }
-
-    public Argument action(Action action) {
-        this.action = action;
-        return this;
-    }
-
-    public <T> Argument type(ArgumentType<T> type) {
         this.type = type;
-        return this;
+        this.suggestion = suggestion;
+        this.action = action;
     }
 
     public Suggestion getSuggestion() {

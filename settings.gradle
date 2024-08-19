@@ -1,4 +1,5 @@
 rootProject.name = 'BuildingGalaxy'
 include 'BuildersUniverse'
 include 'UniverseHub'
+include 'SpigotUniverseGate'
 

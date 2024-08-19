@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    //Module Dependencies
+    implementation project(':UniverseHub')
+
+    //Spigot Dependencies
+    implementation 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
+}

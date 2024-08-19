@@ -1,7 +1,11 @@
 package de.daver.build.hub.demo;
 
+import de.daver.build.hub.UniverseHub;
+import de.daver.build.hub.api.command.ArgumentBuilder;
+import de.daver.build.hub.api.command.ArgumentType;
+import de.daver.build.hub.api.command.Command;
+import de.daver.build.hub.api.command.CommandBuilder;
 import de.daver.build.hub.command.*;
-import de.daver.build.hub.command.defaults.SubCommandArgument;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -9,34 +13,34 @@ import java.util.List;
 
 public class CommandDemo {
 
-    public boolean demoAction(CommandSender sender, CommandInput input) {
+    public boolean demoAction(CommandSender sender, CommandInputImpl input) {
         System.out.println("demoAction");
         return true;
     }
 
-    public List<String> demoSuggestion(CommandSender sender, CommandInput input) {
+    public List<String> demoSuggestion(CommandSender sender, CommandInputImpl input) {
         return new ArrayList<>();
     }
 
     public void test() {
-        var a = new Command("a")
-                .addAlias("AKA")
-                .addArgument(new Argument("alias", 0));
-
-        var b = new Command("b")
-                .addArgument(new Argument("name", 1)
+        Command command = CommandBuilder.create("world")
+                .permission("command.world")
+                .description("The main command for world management")
+                .alias("w", "welt")
+                .action(this::demoAction)
+                .subCommands(0,
+                        CommandBuilder.create("create")
+                                .permission("command.world.create")
+                                .action(this::demoAction)
+                                .build())
+                .arguments(ArgumentBuilder.create("player", 0)
                         .suggestion(this::demoSuggestion)
-                        .action(this::demoAction));
+                        .type(ArgumentType.INT)
+                        .action(this::demoAction)
+                        .build())
+                .build();
 
-        var newC = new Command("test")
-                .addArgument(new SubCommandArgument(0)
-                        .addSubCommands(a, b))
-                .addArgument(new Argument("age", 1)
-                        .type(ArgumentType.INT))
-                .setAction(this::demoAction)
-                .setDescription("This is a test command to simply do nothing!");
-
-        CommandMaster.get().registerCommand(newC);
+        UniverseHub.connector().getCommandRegistrator().registerCommand(command);
     }
 
 }

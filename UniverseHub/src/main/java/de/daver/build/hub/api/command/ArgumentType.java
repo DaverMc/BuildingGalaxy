@@ -1,4 +1,4 @@
-package de.daver.build.hub.command;
+package de.daver.build.hub.api.command;
 
 public interface ArgumentType<T> {
 

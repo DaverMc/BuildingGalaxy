@@ -11,6 +11,9 @@ import de.daver.build.hub.gui.layout.GuiLayout;
 import de.daver.build.hub.item.Item;
 import de.daver.build.hub.util.ClickType;
 
+import java.util.List;
+import java.util.function.Supplier;
+
 public class GuiBuilder {
 
     private GuiBuilder(GuiType type) {
@@ -66,6 +69,10 @@ public class GuiBuilder {
     }
 
     public GuiBuilder accessable(int...slots) {
+        return this;
+    }
+
+    public GuiBuilder dynamicItems(Supplier<List<Item>> itemSupplier) {
         return this;
     }
 
