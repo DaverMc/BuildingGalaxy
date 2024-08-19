@@ -1,12 +1,14 @@
 package de.daver.build.universe.world;
 
+import de.daver.build.hub.UniverseHub;
+import de.daver.build.hub.api.gate.SchedulerMaster;
 import de.daver.build.hub.api.world.World;
-import de.daver.build.hub.world.WorldImpl;
 import de.daver.build.hub.world.WorldMasterImpl;
-import de.daver.build.universe.Main;
+import de.daver.build.universe.BuildersUniverseSpigotGate;
 import org.bukkit.Bukkit;
 
 import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class WorldLoaderService implements Runnable{
@@ -23,7 +25,7 @@ public class WorldLoaderService implements Runnable{
     //Functional variables and constants
     private final WorldMasterImpl worldMaster;
     //The Bukkit Scheduler Task-Id of the automated unloading
-    private int task = -1;
+    private SchedulerMaster.Scheduler task;
 
     private WorldLoaderService(WorldMasterImpl worldMaster) {
         this.worldMaster = worldMaster;
@@ -57,15 +59,14 @@ public class WorldLoaderService implements Runnable{
     }
 
     public void start() {
-        if(task != -1) return;
-        this.task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.instance(), this,
-                0, taskIntervall);
+        if(task != null) return;
+        this.task = UniverseHub.connector().getSchedulerMaster().scheduleRepeating(this, taskIntervall, TimeUnit.MILLISECONDS);
     }
 
     public void stop() {
-        if(task == -1) return;
-        Bukkit.getScheduler().cancelTask(task);
-        this.task = -1;
+        if(task == null) return;
+        this.task.cancel();
+        this.task = null;
     }
 
     @Override

@@ -14,4 +14,6 @@ public interface PlattformGate {
 
     WorldSlave getWorldSlave();
 
+    SchedulerMaster getSchedulerMaster();
+
 }
