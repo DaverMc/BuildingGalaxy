@@ -1,4 +1,4 @@
-package de.daver.build.hub.util;
+package de.daver.build.hub.api.util;
 
 import java.util.UUID;
 
@@ -8,4 +8,5 @@ public interface User {
 
     UUID getUUID();
 
+    boolean hasPermission(String permission);
 }

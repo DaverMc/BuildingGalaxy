@@ -12,4 +12,6 @@ public interface PlattformGate {
 
     ItemManager getItemManager();
 
+    WorldSlave getWorldSlave();
+
 }

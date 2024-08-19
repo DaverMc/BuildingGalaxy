@@ -1,7 +1,7 @@
 package de.daver.build.hub.core.command;
 
 import de.daver.build.hub.api.command.Suggestion;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.User;
 
 import java.util.List;
 

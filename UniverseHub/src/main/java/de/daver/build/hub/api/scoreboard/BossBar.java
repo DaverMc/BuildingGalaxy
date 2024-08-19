@@ -1,6 +1,5 @@
 package de.daver.build.hub.api.scoreboard;
 
-import de.daver.build.hub.util.User;
 import de.daver.build.hub.api.util.Transmitter;
 
 import java.awt.*;

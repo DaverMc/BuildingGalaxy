@@ -1,7 +1,7 @@
 package de.daver.build.hub.api.gui.event;
 
 import de.daver.build.hub.api.gui.Gui;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.User;
 
 public interface GuiCloseEvent extends GuiEvent {
 

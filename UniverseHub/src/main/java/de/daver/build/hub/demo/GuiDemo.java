@@ -7,8 +7,8 @@ import de.daver.build.hub.api.gui.GuiType;
 import de.daver.build.hub.core.gui.layout.BorderLayout;
 import de.daver.build.hub.core.gui.layout.BottomBarLayout;
 import de.daver.build.hub.api.item.Item;
-import de.daver.build.hub.util.ClickType;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.ClickType;
+import de.daver.build.hub.api.util.User;
 
 public class GuiDemo {
 

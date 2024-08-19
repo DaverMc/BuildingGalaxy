@@ -5,7 +5,7 @@ import de.daver.build.hub.api.command.Argument;
 import de.daver.build.hub.api.command.Command;
 import de.daver.build.hub.api.command.Action;
 import de.daver.build.hub.core.command.CommandInputImpl;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.User;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;

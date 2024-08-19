@@ -1,4 +1,4 @@
-package de.daver.build.hub.util;
+package de.daver.build.hub.core.util;
 
 import java.lang.reflect.Field;
 

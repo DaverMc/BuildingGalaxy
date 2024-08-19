@@ -1,7 +1,8 @@
 package de.daver.build.universe.world;
 
-import de.daver.build.hub.world.World;
-import de.daver.build.hub.world.WorldMaster;
+import de.daver.build.hub.api.world.World;
+import de.daver.build.hub.world.WorldImpl;
+import de.daver.build.hub.world.WorldMasterImpl;
 import de.daver.build.universe.Main;
 import org.bukkit.Bukkit;
 
@@ -20,11 +21,11 @@ public class WorldLoaderService implements Runnable{
     private static WorldLoaderService instance;
 
     //Functional variables and constants
-    private final WorldMaster worldMaster;
+    private final WorldMasterImpl worldMaster;
     //The Bukkit Scheduler Task-Id of the automated unloading
     private int task = -1;
 
-    private WorldLoaderService(WorldMaster worldMaster) {
+    private WorldLoaderService(WorldMasterImpl worldMaster) {
         this.worldMaster = worldMaster;
     }
 
@@ -79,10 +80,5 @@ public class WorldLoaderService implements Runnable{
         WorldLoaderService.loadedWorldsLimit = loadedWorldsLimit;
         WorldLoaderService.idleWorldTime = idleWorldTime;
         WorldLoaderService.taskIntervall = taskIntervall;
-    }
-
-    public static WorldLoaderService get() {
-        if(instance == null) instance = new WorldLoaderService(WorldMaster.get());
-        return instance;
     }
 }

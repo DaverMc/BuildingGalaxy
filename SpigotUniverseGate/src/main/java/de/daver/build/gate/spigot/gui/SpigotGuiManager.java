@@ -3,7 +3,7 @@ package de.daver.build.gate.spigot.gui;
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.gate.GuiManager;
 import de.daver.build.hub.api.gui.Gui;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

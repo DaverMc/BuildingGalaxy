@@ -1,20 +1,19 @@
-package de.daver.build.hub.sql.driver;
+package de.daver.build.hub.api.sql.driver;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SQLiteDriver implements DatabaseDriver {
+public class MySQLDriver implements DatabaseDriver {
 
     private final String username;
     private final String password;
     private final String url;
 
-    public SQLiteDriver(File file, String username, String password) {
+    public MySQLDriver(String host, int port, String database, String username, String password) {
         this.username = username;
         this.password = password;
-        this.url = "jdbc:sqlite:" + file.getAbsolutePath();
+        this.url = "jdbc:mysql://" + host + ":" + port + "/" + database;
     }
 
     @Override
@@ -22,3 +21,4 @@ public class SQLiteDriver implements DatabaseDriver {
         return DriverManager.getConnection(url, username, password);
     }
 }
+

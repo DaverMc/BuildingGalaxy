@@ -4,8 +4,8 @@ import de.daver.build.hub.api.item.ItemBuilder;
 import de.daver.build.hub.api.util.EnchantmentBuilder;
 import de.daver.build.hub.api.item.Item;
 import de.daver.build.hub.api.item.Material;
-import de.daver.build.hub.util.ClickType;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.ClickType;
+import de.daver.build.hub.api.util.User;
 
 public class ItemDemo {
 

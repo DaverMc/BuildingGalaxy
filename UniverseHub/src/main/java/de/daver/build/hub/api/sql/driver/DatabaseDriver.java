@@ -1,4 +1,4 @@
-package de.daver.build.hub.sql.driver;
+package de.daver.build.hub.api.sql.driver;
 
 import java.sql.Connection;
 import java.sql.SQLException;

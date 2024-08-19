@@ -2,7 +2,7 @@ package de.daver.build.hub.api.gui;
 
 import de.daver.build.hub.core.gui.Slot;
 import de.daver.build.hub.api.item.Item;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.User;
 
 import java.util.List;
 

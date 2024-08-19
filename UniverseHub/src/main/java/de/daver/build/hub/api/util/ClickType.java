@@ -1,4 +1,4 @@
-package de.daver.build.hub.util;
+package de.daver.build.hub.api.util;
 
 public enum ClickType {
 

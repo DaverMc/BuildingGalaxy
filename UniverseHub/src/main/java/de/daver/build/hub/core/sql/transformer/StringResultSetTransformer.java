@@ -1,4 +1,6 @@
-package de.daver.build.hub.sql.transformer;
+package de.daver.build.hub.core.sql.transformer;
+
+import de.daver.build.hub.api.sql.ResultSetTransformer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

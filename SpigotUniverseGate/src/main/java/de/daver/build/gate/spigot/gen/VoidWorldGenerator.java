@@ -1,8 +1,8 @@
-package de.daver.build.hub.world.gen;
+package de.daver.build.gate.spigot.gen;
 
-import de.daver.build.hub.world.WorldGenerator;
+import de.daver.build.hub.api.world.WorldGenerator;
+import de.daver.build.hub.world.WorldImpl;
 import org.bukkit.Material;
-import org.bukkit.WorldCreator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 
@@ -20,7 +20,7 @@ public class VoidWorldGenerator extends ChunkGenerator implements WorldGenerator
     }
 
     @Override
-    public WorldCreator toWorldCreator(String name) {
-        return new WorldCreator(name).generator(this);
+    public boolean generate(WorldImpl world) {
+        return false;
     }
 }

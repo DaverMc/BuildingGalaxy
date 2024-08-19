@@ -4,7 +4,7 @@ import de.daver.build.hub.api.gui.event.GuiCloseEvent;
 import de.daver.build.hub.api.gui.event.GuiEvent;
 import de.daver.build.hub.api.gui.event.GuiOpenEvent;
 import de.daver.build.hub.api.item.Item;
-import de.daver.build.hub.util.ClickType;
+import de.daver.build.hub.api.util.ClickType;
 
 import java.util.List;
 import java.util.function.Supplier;

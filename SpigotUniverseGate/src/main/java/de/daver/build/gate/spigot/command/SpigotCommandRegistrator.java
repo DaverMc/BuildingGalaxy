@@ -2,7 +2,7 @@ package de.daver.build.gate.spigot.command;
 
 import de.daver.build.hub.api.command.Command;
 import de.daver.build.hub.api.gate.CommandRegistrator;
-import de.daver.build.hub.util.ReflectionUtils;
+import de.daver.build.hub.core.util.ReflectionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.PluginManager;

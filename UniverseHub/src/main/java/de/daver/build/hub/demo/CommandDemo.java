@@ -7,7 +7,7 @@ import de.daver.build.hub.api.command.Command;
 import de.daver.build.hub.api.command.CommandBuilder;
 
 import de.daver.build.hub.core.command.CommandInputImpl;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.User;
 
 import java.util.ArrayList;
 import java.util.List;

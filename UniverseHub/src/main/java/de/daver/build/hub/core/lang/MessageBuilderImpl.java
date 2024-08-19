@@ -1,10 +1,8 @@
-package de.daver.build.hub.lang;
+package de.daver.build.hub.core.lang;
 
 import de.daver.build.hub.api.lang.MessageBuilder;
 import de.daver.build.hub.api.lang.PlaceHolder;
-import de.daver.build.hub.util.User;
-
-import java.util.Collection;
+import de.daver.build.hub.api.util.User;
 
 public class MessageBuilderImpl implements MessageBuilder {
 

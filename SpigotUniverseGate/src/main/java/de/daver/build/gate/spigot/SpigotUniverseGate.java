@@ -50,5 +50,10 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
         return null;
     }
 
+    @Override
+    public WorldSlave getWorldSlave() {
+        return null;
+    }
+
 
 }

@@ -1,6 +1,8 @@
 package de.daver.build.universe.listener;
 
-import de.daver.build.hub.world.WorldMaster;
+import de.daver.build.hub.UniverseHub;
+import de.daver.build.hub.api.util.User;
+import de.daver.build.hub.world.WorldMasterImpl;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +15,8 @@ public class WorldChangeListener implements Listener {
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
-        if(WorldMaster.get().isPermitted(player, player.getWorld().getName())) {
+        User user = UniverseHub.connector().getUserManager().getPlayer(player.getUniqueId());
+        if(UniverseHub.getWorldMaster().isPermitted(user, player.getWorld().getName())) {
             player.sendMessage("You're not allowed to enter this world!"); //TODO Format Message>
             return;
         }

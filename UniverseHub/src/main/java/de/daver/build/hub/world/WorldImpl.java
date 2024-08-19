@@ -1,11 +1,12 @@
 package de.daver.build.hub.world;
 
-import org.bukkit.entity.Player;
+import de.daver.build.hub.api.world.World;
+import de.daver.build.hub.api.world.WorldGenerator;
 
 import java.util.List;
 import java.util.UUID;
 
-public class World {
+public class WorldImpl implements World {
 
     private final String id;
     private final WorldGenerator generator;
@@ -15,7 +16,7 @@ public class World {
     //Öffnet eine Welt für alle oder schließt diese Welt und lässt nur die angegebenen Spieler rein
     private boolean open;
 
-    protected World(String id, WorldGenerator generator, List<UUID> allowedUsers) {
+    protected WorldImpl(String id, WorldGenerator generator, List<UUID> allowedUsers) {
         this.id = id;
         this.generator = generator;
         this.allowedUsers = allowedUsers;
@@ -62,9 +63,5 @@ public class World {
 
     public boolean isAllowed(UUID uuid) {
         return allowedUsers.contains(uuid);
-    }
-
-    public boolean isPermitted(Player uuid) {
-        return WorldMaster.get().isPermitted(uuid, id);
     }
 }

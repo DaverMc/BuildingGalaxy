@@ -3,9 +3,8 @@ package de.daver.build.hub.demo;
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.lang.Language;
 import de.daver.build.hub.api.lang.LanguageKey;
-import de.daver.build.hub.lang.LanguageManagerImpl;
 import de.daver.build.hub.api.lang.PlaceHolder;
-import de.daver.build.hub.util.User;
+import de.daver.build.hub.api.util.User;
 
 import java.util.ArrayList;
 
