@@ -1,5 +1,7 @@
 package de.daver.build.hub.lang;
 
+import de.daver.build.hub.api.lang.LanguageKey;
+
 import java.util.HashMap;
 import java.util.Map;
 

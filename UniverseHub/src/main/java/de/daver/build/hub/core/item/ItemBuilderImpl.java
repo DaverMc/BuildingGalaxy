@@ -1,4 +1,4 @@
-package de.daver.build.hub.item;
+package de.daver.build.hub.core.item;
 
 import de.daver.build.hub.api.item.Item;
 import de.daver.build.hub.api.item.ItemAction;

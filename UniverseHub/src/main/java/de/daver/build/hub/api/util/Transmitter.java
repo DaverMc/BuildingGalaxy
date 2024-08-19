@@ -1,4 +1,6 @@
-package de.daver.build.hub.util;
+package de.daver.build.hub.api.util;
+
+import de.daver.build.hub.util.User;
 
 import java.util.Collection;
 

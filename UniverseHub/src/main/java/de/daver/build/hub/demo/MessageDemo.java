@@ -1,9 +1,10 @@
 package de.daver.build.hub.demo;
 
-import de.daver.build.hub.lang.Language;
-import de.daver.build.hub.lang.LanguageKey;
-import de.daver.build.hub.lang.Messages;
-import de.daver.build.hub.lang.PlaceHolder;
+import de.daver.build.hub.UniverseHub;
+import de.daver.build.hub.api.lang.Language;
+import de.daver.build.hub.api.lang.LanguageKey;
+import de.daver.build.hub.lang.LanguageManagerImpl;
+import de.daver.build.hub.api.lang.PlaceHolder;
 import de.daver.build.hub.util.User;
 
 import java.util.ArrayList;
@@ -14,17 +15,17 @@ public class MessageDemo {
 
 
     public void demo() {
-        Messages.init(DemoKeys.class, Language.BENGALI, Language.ENGLISH, Language.GERMAN);
+        UniverseHub.getLanguageManager().init(DemoKeys.class, Language.BENGALI, Language.GERMAN, Language.ENGLISH);
 
-        Messages.get(Language.GERMAN, DemoKeys.MSG)
-                .placeholder(new PlaceHolder("name", "Daver"))
-                .placeholder(new PlaceHolder("age", 4, PlaceHolder.Type.INTEGER))
+        UniverseHub.getLanguageManager().get(Language.GERMAN, DemoKeys.MSG)
+                .placeholder(new PlaceHolder("name", "Daver"),
+                        new PlaceHolder("age", 4, PlaceHolder.Type.INTEGER))
                 .send(user);
 
-        Messages.get(Language.ENGLISH, DemoKeys.MSG)
+        UniverseHub.getLanguageManager().get(Language.ENGLISH, DemoKeys.MSG)
                 .broadcast(new ArrayList<>());
 
-        String message = Messages.get(Language.ARABIC, DemoKeys.MSG)
+        String message = UniverseHub.getLanguageManager().get(Language.ARABIC, DemoKeys.MSG)
                 .toString();
     }
 

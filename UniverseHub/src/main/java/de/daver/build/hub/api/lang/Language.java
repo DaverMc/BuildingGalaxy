@@ -1,4 +1,4 @@
-package de.daver.build.hub.lang;
+package de.daver.build.hub.api.lang;
 
 public enum Language {
 

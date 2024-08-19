@@ -1,13 +1,10 @@
-package de.daver.build.hub.lang;
+package de.daver.build.hub.api.lang;
 
-public class PlaceHolder {
 
-    public <T> PlaceHolder(String key, T value, Type<T> type) {
-
-    }
+public record PlaceHolder(String key, Object value, Type<?> type) {
 
     public PlaceHolder(String key, Object value) {
-
+        this(key, value, Object::toString);
     }
 
     public interface Type<T> {

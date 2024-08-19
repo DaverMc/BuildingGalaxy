@@ -1,6 +1,6 @@
 package de.daver.build.universe.util;
 
-import de.daver.build.hub.lang.LanguageKey;
+import de.daver.build.hub.api.lang.LanguageKey;
 
 public enum BUUNKeys implements LanguageKey {
 
@@ -15,5 +15,10 @@ public enum BUUNKeys implements LanguageKey {
     @Override
     public String path() {
         return this.path;
+    }
+
+    @Override
+    public String description() {
+        return "";
     }
 }

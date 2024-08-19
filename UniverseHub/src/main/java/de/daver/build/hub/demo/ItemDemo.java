@@ -2,7 +2,6 @@ package de.daver.build.hub.demo;
 
 import de.daver.build.hub.api.item.ItemBuilder;
 import de.daver.build.hub.api.util.EnchantmentBuilder;
-import de.daver.build.hub.item.ItemBuilderImpl;
 import de.daver.build.hub.api.item.Item;
 import de.daver.build.hub.api.item.Material;
 import de.daver.build.hub.util.ClickType;
