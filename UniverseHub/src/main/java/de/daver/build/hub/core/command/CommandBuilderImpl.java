@@ -15,11 +15,13 @@ public class CommandBuilderImpl implements CommandBuilder {
     private final String name;
     private String permission;
     private String description;
-    private List<String> alias;
-    private List<Argument> arguments;
+    private final List<String> alias;
+    private final List<Argument> arguments;
     private Action action;
 
     public CommandBuilderImpl(String name) {
+        this.arguments = new ArrayList<>();
+        this.alias = new ArrayList<>();
         this.name = name;
     }
 
@@ -37,14 +39,12 @@ public class CommandBuilderImpl implements CommandBuilder {
 
     @Override
     public CommandBuilder alias(String... aliases) {
-        if(this.alias == null) this.alias = new ArrayList<>();
         this.alias.addAll(List.of(aliases));
         return this;
     }
 
     @Override
     public CommandBuilder arguments(Argument... arguments) {
-        if(this.arguments == null) this.arguments = new ArrayList<>();
         this.arguments.addAll(List.of(arguments));
         return this;
     }

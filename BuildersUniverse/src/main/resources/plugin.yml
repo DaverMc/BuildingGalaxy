@@ -1,0 +1,4 @@
+name: "BuildersUniverse"
+version: "v1.0.0"
+author: "Daver_Mc"
+main: "de.daver.build.universe.gate.BuildersUniverseSpigotGate"

@@ -1,5 +1,6 @@
 package de.daver.build.gate.spigot;
 
+import de.daver.build.gate.spigot.command.SpigotCommandRegistrator;
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.gate.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,7 +33,7 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
     @Override
     public CommandRegistrator getCommandRegistrator() {
-        return null;
+        return new SpigotCommandRegistrator();
     }
 
     @Override
