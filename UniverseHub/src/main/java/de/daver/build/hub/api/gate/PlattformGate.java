@@ -1,5 +1,7 @@
 package de.daver.build.hub.api.gate;
 
+import java.util.logging.Logger;
+
 public interface PlattformGate {
 
     UniverseAdapter getAdapter();
@@ -15,5 +17,7 @@ public interface PlattformGate {
     WorldSlave getWorldSlave();
 
     SchedulerMaster getSchedulerMaster();
+
+    Logger getLogger();
 
 }
