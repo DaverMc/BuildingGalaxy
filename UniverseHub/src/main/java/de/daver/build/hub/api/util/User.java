@@ -2,11 +2,7 @@ package de.daver.build.hub.api.util;
 
 import java.util.UUID;
 
-public interface User {
-
-    void sendMessage(String message);
+public interface User extends Sender {
 
     UUID getUUID();
-
-    boolean hasPermission(String permission);
 }

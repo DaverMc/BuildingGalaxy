@@ -9,11 +9,13 @@ public class ArgumentImpl implements Argument {
 
     private final String key;
     private final int position;
-    private ArgumentType<?> type;
-    private Suggestion suggestion;
-    private Action action;
+    private final ArgumentType<?> type;
+    private final Suggestion suggestion;
+    private final Action action;
 
-    public ArgumentImpl(String key, int position, ArgumentType<?> type, Suggestion suggestion, Action action) {
+    public ArgumentImpl(String key, int position,
+                        ArgumentType<?> type, Suggestion suggestion,
+                        Action action) {
         this.key = key;
         this.position = position;
         this.type = type;
@@ -38,6 +40,7 @@ public class ArgumentImpl implements Argument {
         return this.position;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T get(String raw) {
         if(type == null) return (T) raw;
         return (T) type.transformString(raw);

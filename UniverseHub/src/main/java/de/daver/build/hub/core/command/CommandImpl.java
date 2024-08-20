@@ -13,11 +13,11 @@ public class CommandImpl implements Command {
     private final List<String> aliases;
     private final String name;
     private final String permission;
+    private final Action action;
+    private final String description;
 
-    private Action action;
-    private String description;
-
-    public CommandImpl(String name, String permission, String description, Action action,
+    public CommandImpl(String name, String permission,
+                       String description, Action action,
                        List<String> alias, Map<String, Argument> arguments) {
         this.arguments = arguments;
         this.aliases = alias;
@@ -36,23 +36,42 @@ public class CommandImpl implements Command {
         return this.description;
     }
 
+    @Override
+    public String permission() {
+        return this.permission;
+    }
+
     public List<String> aliases() {
         return this.aliases;
     }
 
-    public Action action() {
-        return this.action;
+    public Command getSubCommand(List<String> args) {
+        return getSubCommandRecursive(this, args, 0);
     }
 
-    public Command getSubCommand(List<String> args) {
-        if(args == null || args.isEmpty()) return this;
-        return this.arguments.values().stream()
+    private static CommandImpl getSubCommandRecursive(CommandImpl root, List<String> args, int iteration) {
+        if (args.isEmpty()) return root;
+
+        String name = args.get(iteration);
+        CommandImpl subCommand = root.arguments.values().stream()
+                .filter(argument -> argument.getPosition() == iteration)
                 .filter(argument -> argument instanceof SubCommandArgument)
                 .map(argument -> (SubCommandArgument) argument)
-                .map(argument -> argument.getSubCommand(args.remove(argument.getPosition())))
+                .map(subCommandArgument -> subCommandArgument.getSubCommand(name))
+                .filter(Objects::nonNull)
+                .map(command -> (CommandImpl) command)
                 .findFirst()
-                .orElse(null);
+                .orElse(root);
+
+        int newIteration = iteration;
+        if(subCommand == root) newIteration++;
+        else {
+            args.subList(0, newIteration + 1).clear();
+            newIteration = 0;
+        }
+        return getSubCommandRecursive(subCommand, args, newIteration);
     }
+
 
     public List<Argument> getArguments(int position) {
         return this.arguments.values().stream()

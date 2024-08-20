@@ -1,5 +1,7 @@
 package de.daver.build.hub.api.gate;
 
+import de.daver.build.hub.api.util.Sender;
+
 import java.util.logging.Logger;
 
 public interface PlattformGate {
@@ -10,7 +12,7 @@ public interface PlattformGate {
 
     UserManager getUserManager();
 
-    GuiManager getGuiManager();
+    GuiConnection getGuiConnection();
 
     ItemManager getItemManager();
 
@@ -19,5 +21,7 @@ public interface PlattformGate {
     SchedulerMaster getSchedulerMaster();
 
     Logger getLogger();
+
+    Sender getConsoleSender();
 
 }

@@ -1,19 +1,23 @@
 package de.daver.build.gate.spigot;
 
 import de.daver.build.gate.spigot.command.SpigotCommandRegistrator;
+import de.daver.build.gate.spigot.gui.GuiListener;
+import de.daver.build.gate.spigot.gui.SpigotGuiConnection;
+import de.daver.build.gate.spigot.user.SpigotConsole;
 import de.daver.build.gate.spigot.user.SpigotUserManager;
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.gate.*;
+import de.daver.build.hub.api.util.Sender;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
-    private final JavaPlugin spigotInstance;
     private final UniverseAdapter adapter;
     private UserManager userManager;
 
     public SpigotUniverseGate(UniverseAdapter adapter) {
-        this.spigotInstance = this;
         UniverseHub.setGate(this);
         this.adapter = adapter;
     }
@@ -21,7 +25,13 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
     @Override
     public void onEnable() {
         this.userManager = new SpigotUserManager();
+        registerListeners();
         adapter.onInitialisation();
+    }
+
+    private void registerListeners() {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new GuiListener(), this);
     }
 
     @Override
@@ -45,8 +55,8 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
     }
 
     @Override
-    public GuiManager getGuiManager() {
-        return null;
+    public GuiConnection getGuiConnection() {
+        return new SpigotGuiConnection();
     }
 
     @Override
@@ -62,6 +72,11 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
     @Override
     public SchedulerMaster getSchedulerMaster() {
         return null;
+    }
+
+    @Override
+    public Sender getConsoleSender() {
+        return new SpigotConsole();
     }
 
 

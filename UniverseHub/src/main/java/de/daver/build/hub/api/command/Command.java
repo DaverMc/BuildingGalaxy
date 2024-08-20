@@ -8,6 +8,8 @@ public interface Command {
 
     String description();
 
+    String permission();
+
     List<String> aliases();
 
     Command getSubCommand(List<String> arguments);

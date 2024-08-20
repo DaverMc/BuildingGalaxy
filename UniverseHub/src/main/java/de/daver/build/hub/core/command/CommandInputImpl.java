@@ -16,6 +16,7 @@ public class CommandInputImpl implements CommandInput {
         this.command = command;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T get(String key) {
         Argument argument = command.getArgument(key);
@@ -23,6 +24,7 @@ public class CommandInputImpl implements CommandInput {
         return (T) args.get(argument.getPosition());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T get(int index) {
         List<Argument> argument = command.getArguments(index);

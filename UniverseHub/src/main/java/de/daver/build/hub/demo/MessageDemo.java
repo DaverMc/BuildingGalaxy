@@ -8,11 +8,12 @@ import de.daver.build.hub.api.util.User;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public class MessageDemo {
 
-    User user = null;
+    private static final User user = null;
 
-
+    @SuppressWarnings("unused")
     public void demo() {
         UniverseHub.getLanguageManager().init(DemoKeys.class, Language.BENGALI, Language.GERMAN, Language.ENGLISH);
 
@@ -26,6 +27,7 @@ public class MessageDemo {
 
         String message = UniverseHub.getLanguageManager().get(Language.ARABIC, DemoKeys.MSG)
                 .toString();
+        System.out.println(message);
     }
 
 

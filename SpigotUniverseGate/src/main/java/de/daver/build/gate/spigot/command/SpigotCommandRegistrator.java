@@ -14,6 +14,7 @@ public class SpigotCommandRegistrator implements CommandRegistrator {
 
         PluginManager pluginManager = Bukkit.getServer().getPluginManager();
         CommandMap commandMap = ReflectionUtils.getFieldValue(pluginManager, "commandMap");
+        if(commandMap == null) throw new NoSuchFieldError("commandMap");
         commandMap.register(command.name(), new SpigotCommand(command));
     }
 }

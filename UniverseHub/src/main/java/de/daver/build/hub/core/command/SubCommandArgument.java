@@ -9,7 +9,7 @@ public class SubCommandArgument extends ArgumentImpl {
     private final List<Command> subCommands;
 
     public SubCommandArgument(int position, List<Command> subCommands) {
-        super("subcommand", position, null, new SubCommandSuggestion(), null);
+        super("subcommand", position, null, new SubCommandSuggestion(subCommands), null);
         this.subCommands = subCommands;
     }
 

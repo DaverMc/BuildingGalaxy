@@ -7,6 +7,9 @@ import de.daver.build.hub.api.lang.Language;
 import de.daver.build.universe.command.world.WorldCommand;
 import de.daver.build.universe.util.BUUNKeys;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @PluginName("Builders Universe")
 @PluginVersion("v_1.0.0-preview")
 @PluginAuthors({"DaverMc", "FusselTV"})
@@ -15,16 +18,17 @@ public class BuildersUniverse implements UniverseAdapter {
 
     @Override
     public void onInitialisation() {
-        System.out.println("Initialising Builders Universe...");
-        System.out.println("Initialising Language System...");
+        Logger logger = UniverseHub.gate().getLogger();
+        logger.log(Level.INFO, "Initialising Builders Universe...");
+        logger.log(Level.INFO, "Initialising Language System...");
         UniverseHub.getLanguageManager().init(BUUNKeys.class, Language.GERMAN, Language.ENGLISH);
-        System.out.println("Registering Commands...");
+        logger.log(Level.INFO, "Registering Commands...");
         registerCommands();
-        System.out.println("Connecting to Database...");
+        logger.log(Level.INFO, "Connecting to Database...");
         connectToDatabase();
-        System.out.println("Starting world system...");
+        logger.log(Level.INFO, "Starting world system...");
         startWorldSystem();
-        System.out.println("Finished initialising Builders Universe");
+        logger.log(Level.INFO, "Finished initialising Builders Universe");
     }
 
     private void registerCommands() {
@@ -41,8 +45,9 @@ public class BuildersUniverse implements UniverseAdapter {
 
     @Override
     public void onTermination() {
-        System.out.println("Terminating Builders Universe...");
+        Logger logger = UniverseHub.gate().getLogger();
+        logger.log(Level.INFO, "Terminating Builders Universe...");
 
-        System.out.println("Finished Terminating Builders Universe");
+        logger.log(Level.INFO, "Finished Terminating Builders Universe");
     }
 }

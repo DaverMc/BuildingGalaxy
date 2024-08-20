@@ -12,7 +12,7 @@ public interface CommandBuilder {
 
     CommandBuilder arguments(Argument...arguments);
 
-    CommandBuilder action(Action action);
+    //CommandBuilder action(Action<? super Sender> action);
 
     CommandBuilder subCommands(int position, Command...subCommands);
 
@@ -22,4 +22,5 @@ public interface CommandBuilder {
         return new CommandBuilderImpl(name);
     }
 
+    CommandBuilder action(Action demoAction);
 }

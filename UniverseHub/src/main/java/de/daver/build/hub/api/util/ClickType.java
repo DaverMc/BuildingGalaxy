@@ -5,6 +5,6 @@ public enum ClickType {
     LEFT,
     RIGHT,
     SHIFTED_LEFT,
-    SHIFTED_RIGHT;
+    SHIFTED_RIGHT
 
 }

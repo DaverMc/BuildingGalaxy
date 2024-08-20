@@ -1,6 +1,7 @@
 package de.daver.build.hub.core.gui;
 
 import de.daver.build.hub.api.gui.GuiAction;
+import de.daver.build.hub.api.gui.Slot;
 import de.daver.build.hub.api.item.Item;
 import de.daver.build.hub.api.util.ClickType;
 
@@ -9,21 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Slot {
+public class SlotImpl implements Slot {
 
     private final Map<ClickType, List<GuiAction>> actions;
     private Item item;
-    private boolean locked; //statis item cannot be replaceable
+    private boolean locked; // static item cannot be replaceable
     private boolean accessible; //Spieler kann Item herausnehmen
 
-    public Slot(Item item, Map<ClickType, List<GuiAction>> actions) {
-        this.actions = actions;
-        this.item = item;
+    protected SlotImpl() {
+        this.actions = new HashMap<>();
+        this.item = null;
         this.locked = false;
-    }
-
-    public Slot() {
-        this(null, new HashMap<>());
+        this.accessible = false;
     }
 
     public Item getItem() {
@@ -31,7 +29,7 @@ public class Slot {
     }
 
     public boolean setItem(Item item) {
-        if(this.locked) return false;
+        if(isLocked()) return false;
         this.item = item;
         return true;
     }
@@ -40,10 +38,12 @@ public class Slot {
         this.accessible = accessible;
     }
 
-    public void lock() {
-        this.locked = true;
+    @Override
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
+    @Override
     public void addAction(ClickType type, GuiAction action) {
         List<GuiAction> actions = this.actions.get(type);
         if (actions == null) actions = new ArrayList<>();
@@ -51,8 +51,18 @@ public class Slot {
         this.actions.put(type, actions);
     }
 
+    @Override
     public List<GuiAction> getActions(ClickType type) {
         return actions.get(type);
     }
 
+    @Override
+    public boolean isAccessible() {
+        return this.accessible;
+    }
+
+    @Override
+    public boolean isLocked() {
+        return this.locked;
+    }
 }

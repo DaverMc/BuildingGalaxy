@@ -1,29 +1,31 @@
 package de.daver.build.hub.demo;
 
 import de.daver.build.hub.UniverseHub;
-import de.daver.build.hub.api.command.ArgumentBuilder;
-import de.daver.build.hub.api.command.ArgumentType;
-import de.daver.build.hub.api.command.Command;
-import de.daver.build.hub.api.command.CommandBuilder;
+import de.daver.build.hub.api.command.*;
 
+import de.daver.build.hub.api.util.Sender;
 import de.daver.build.hub.core.command.CommandInputImpl;
 import de.daver.build.hub.api.util.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class CommandDemo {
+@SuppressWarnings("unused")
+public class CommandDemo implements Demo{
 
-    public boolean demoAction(User user, CommandInputImpl input) {
+    private boolean demoAction(Sender sender, CommandInput input) {
         System.out.println("demoAction");
-        return true;
+        return new Random().nextBoolean();
     }
 
     public List<String> demoSuggestion(User user, CommandInputImpl input) {
         return new ArrayList<>();
     }
 
-    public void test() {
+    @Override
+    @SuppressWarnings("unused")
+    public void demo() {
         Command command = CommandBuilder.create("world")
                 .permission("command.world")
                 .description("The main command for world management")

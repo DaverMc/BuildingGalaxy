@@ -1,94 +1,121 @@
 package de.daver.build.hub.core.gui;
 
-import de.daver.build.hub.api.gui.Gui;
-import de.daver.build.hub.api.gui.GuiBuilder;
-import de.daver.build.hub.api.gui.GuiType;
-import de.daver.build.hub.api.gui.GuiAction;
-import de.daver.build.hub.core.gui.action.GuiCloseAction;
-import de.daver.build.hub.core.gui.action.GuiSwitchAction;
-import de.daver.build.hub.core.gui.action.PageSwitchAction;
+import de.daver.build.hub.api.gui.*;
 import de.daver.build.hub.api.gui.event.GuiCloseEvent;
 import de.daver.build.hub.api.gui.event.GuiEvent;
 import de.daver.build.hub.api.gui.event.GuiOpenEvent;
-import de.daver.build.hub.api.gui.GuiLayout;
 import de.daver.build.hub.api.item.Item;
 import de.daver.build.hub.api.util.ClickType;
+import de.daver.build.hub.core.gui.action.GuiCloseAction;
+import de.daver.build.hub.core.gui.action.GuiSwitchAction;
+import de.daver.build.hub.core.gui.action.PageSwitchAction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class GuiBuilderImpl implements GuiBuilder {
 
-    private GuiBuilderImpl(GuiType type) {
+    private final Map<Class<? extends GuiEvent>, GuiEvent> guiEvents;
+    private final GuiType type;
+    private final SlotImpl[] slots;
+    private String id;
+    private String title;
+    private Supplier<List<Item>> dyanmicItemSupplier;
 
+    public GuiBuilderImpl(GuiType type) {
+        this.type = type;
+        this.slots = new SlotImpl[type.getSlotCount()];
+        for (int i = 0; i < type.getSlotCount(); i++) slots[i] = new SlotImpl();
+        this.guiEvents = new HashMap<>();
     }
 
-    public GuiBuilderImpl title(String title) {
+    @Override
+    public GuiBuilder id(String id) {
+        this.id = id;
         return this;
     }
 
-    public GuiBuilderImpl id(String id) {
+    @Override
+    public GuiBuilder title(String title) {
+        this.title = title;
         return this;
     }
 
-    public GuiBuilderImpl staticItem(int slot, Item item) {
+    @Override
+    public GuiBuilder layout(GuiLayout layout) {
+        layout.apply(this.type,this);
         return this;
     }
 
-    public GuiBuilderImpl applyLayout(GuiLayout layout) {
+    @Override
+    public GuiBuilder staticItem(int position, Item item) {
+        Slot slot = this.slots[position];
+        slot.setItem(item);
+        slot.setLocked(true);
         return this;
     }
 
-    public GuiBuilderImpl addInteraction(int slot, GuiAction action, ClickType... clickTypes) {
+    @Override
+    public GuiBuilder addInteraction(int position, GuiAction action, ClickType... clickTypes) {
+        Slot slot = this.slots[position];
+        for(ClickType clickType : clickTypes) slot.addAction(clickType, action);
         return this;
     }
 
-    public GuiBuilderImpl addGuiSwitch(int slot, String guiId, ClickType... clickTypes) {
-        return addInteraction(slot, new GuiSwitchAction(guiId), clickTypes);
+    @Override
+    public GuiBuilder addGuiSwitch(int position, String guiId, ClickType... clickTypes) {
+        return addInteraction(position, new GuiSwitchAction(guiId), clickTypes);
     }
 
-    public GuiBuilderImpl addPageSwitch(int slot, boolean increase, ClickType... clickTypes) {
-        return addInteraction(slot, new PageSwitchAction(increase), clickTypes);
+    @Override
+    public GuiBuilder addPageSwitch(int position, boolean increase, ClickType... clickTypes) {
+        return addInteraction(position, new PageSwitchAction(increase), clickTypes);
     }
 
-    public GuiBuilderImpl addPageSwitch(int slot) {
-        return addInteraction(slot, new PageSwitchAction());
+    @Override
+    public GuiBuilder addPageSwitch(int position) {
+        return addInteraction(position, new PageSwitchAction());
     }
 
-    public GuiBuilderImpl closeOn(int slot) {
-        return addInteraction(slot, new GuiCloseAction());
+    @Override
+    public GuiBuilder closeOn(int position) {
+        return addInteraction(position, new GuiCloseAction());
     }
 
-    public GuiBuilderImpl addEvent(GuiEvent event) {
+    @Override
+    public GuiBuilder addEvent(GuiEvent event) {
+        guiEvents.put(event.getClass(), event);
         return this;
     }
 
-    public GuiBuilderImpl addOpenEvent(GuiOpenEvent event) {
+    @Override
+    public GuiBuilder addOpenEvent(GuiOpenEvent event) {
         return addEvent(event);
     }
 
-    public GuiBuilderImpl addCloseEvent(GuiCloseEvent event) {
+    @Override
+    public GuiBuilder addCloseEvent(GuiCloseEvent event) {
         return addEvent(event);
     }
 
-    public GuiBuilderImpl accessible(int...slots) {
+    @Override
+    public GuiBuilder accessible(int... slots) {
+        for(int slot : slots) this.slots[slot].setAccessible(true);
         return this;
     }
 
-    public GuiBuilderImpl dynamicItems(Supplier<List<Item>> itemSupplier) {
+    @Override
+    public GuiBuilder dynamicItems(Supplier<List<Item>> itemSupplier) {
+        this.dyanmicItemSupplier = itemSupplier;
         return this;
     }
 
+    @Override
     public Gui build() {
-        return null;
-    }
-
-
-    public static GuiBuilderImpl create(int rows) {
-        return new GuiBuilderImpl(GuiType.getByRows(rows));
-    }
-
-    public static GuiBuilderImpl create(GuiType type) {
-        return new GuiBuilderImpl(type);
+        return new GuiImpl(this.type, this.slots,
+                this.title, this.id,
+                this.dyanmicItemSupplier, this.guiEvents);
     }
 }
