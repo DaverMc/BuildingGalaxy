@@ -4,6 +4,6 @@ import de.daver.build.hub.api.util.User;
 
 public interface GuiAction {
 
-    void execute(User clicker);
+    void execute(User clicker, Gui gui);
 
 }

@@ -17,6 +17,6 @@ dependencies {
     //Module Dependencies
     implementation project(':UniverseHub')
 
-    //Spigot Dependencies
+    implementation 'org.jetbrains:annotations:24.0.1'
     implementation 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
 }

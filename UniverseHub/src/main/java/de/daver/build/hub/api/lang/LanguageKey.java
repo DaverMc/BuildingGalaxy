@@ -4,7 +4,6 @@ public interface LanguageKey {
 
     String path();
 
-    //Eine Zeile über dem eigentlichen Key
-    //Für zum Beispiel die einzelnen placeholder id und Ausgeschiedene oder Beschreibungen
+    //Für zum Beispiel die einzelnen placeholder id
     String description();
 }

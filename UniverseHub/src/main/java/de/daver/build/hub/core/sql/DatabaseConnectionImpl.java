@@ -35,7 +35,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         return connection;
     }
 
-    private void releaseConnection(Connection connection) throws SQLException {
+    private void releaseConnection(Connection connection) {
         if(connectionPool.containsKey(connection)) connectionPool.put(connection, true);
         while(connectionPool.size() > connectionPoolSize) {
             Connection connect = connectionPool.keySet().stream()

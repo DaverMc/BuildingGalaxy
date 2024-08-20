@@ -4,7 +4,7 @@ import de.daver.build.hub.api.item.Item;
 import de.daver.build.hub.api.item.ItemAction;
 import de.daver.build.hub.api.item.ItemBuilder;
 import de.daver.build.hub.api.item.Material;
-import de.daver.build.hub.api.util.Enchantment;
+import de.daver.build.hub.api.item.Enchantment;
 import de.daver.build.hub.api.util.ClickType;
 
 public class ItemBuilderImpl implements ItemBuilder{

@@ -43,7 +43,7 @@ public class WorldMasterImpl implements WorldMaster {
         World world = new WorldImpl(id, generator, new ArrayList<>());
         world.setLoaded(load);
         worlds.put(id, world);
-        dbConnection.execute("INSERT INTO");
+        if(!dbConnection.execute("INSERT INTO")) throw new RuntimeException("Database not found!");
         UniverseHub.gate().getWorldSlave().createWorld(world);
         if(!load) UniverseHub.gate().getWorldSlave().unloadWorld(world);
         return world;

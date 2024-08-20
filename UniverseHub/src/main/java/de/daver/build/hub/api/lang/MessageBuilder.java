@@ -4,7 +4,7 @@ import de.daver.build.hub.api.util.Transmitter;
 
 public interface MessageBuilder extends Transmitter {
 
-    MessageBuilder placeholder(PlaceHolder... placeHolders);
+    MessageBuilder placeholder(PlaceHolder<?>... placeHolders);
 
     String toMessage();
 

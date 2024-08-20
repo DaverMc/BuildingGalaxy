@@ -36,11 +36,11 @@ public class BuildersUniverse implements UniverseAdapter {
     }
 
     private void connectToDatabase() {
-
+        //TODO This is a placeholder
     }
 
     private void startWorldSystem() {
-
+        //TODO This is a placeholder
     }
 
     @Override

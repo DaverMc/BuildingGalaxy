@@ -14,7 +14,7 @@ public class SpigotUser implements User {
     }
 
     @Override
-    public void sendMessage(String message) {
+    public void send(String message) {
         player.sendMessage(message);
     }
 

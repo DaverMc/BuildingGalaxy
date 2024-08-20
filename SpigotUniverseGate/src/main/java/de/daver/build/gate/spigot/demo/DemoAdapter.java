@@ -15,8 +15,4 @@ public class DemoAdapter implements UniverseAdapter {
     public void onTermination() {
         System.out.println("Terminating Demo Adapter");
     }
-
-    public void test() {
-
-    }
 }

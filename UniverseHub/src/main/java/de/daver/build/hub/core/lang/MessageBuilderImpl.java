@@ -6,22 +6,27 @@ import de.daver.build.hub.api.util.User;
 
 public class MessageBuilderImpl implements MessageBuilder {
 
-    public MessageBuilderImpl(String rawMessage) {
+    private String rawMessage;
 
+    public MessageBuilderImpl(String rawMessage) {
+        this.rawMessage = rawMessage;
     }
 
     @Override
-    public MessageBuilder placeholder(PlaceHolder... placeHolders) {
-        return null;
+    public MessageBuilder placeholder(PlaceHolder<?>... placeHolders) {
+        for(PlaceHolder<?> placeHolder : placeHolders) {
+            this.rawMessage = rawMessage.replaceAll("<" + placeHolder.key() + ">", placeHolder.get());
+        }
+        return this;
     }
 
     @Override
     public String toMessage() {
-        return "";
+        return this.rawMessage;
     }
 
     @Override
     public void send(User user) {
-
+        user.send(toMessage());
     }
 }

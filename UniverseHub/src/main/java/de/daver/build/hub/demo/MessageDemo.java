@@ -18,8 +18,8 @@ public class MessageDemo {
         UniverseHub.getLanguageManager().init(DemoKeys.class, Language.BENGALI, Language.GERMAN, Language.ENGLISH);
 
         UniverseHub.getLanguageManager().get(Language.GERMAN, DemoKeys.MSG)
-                .placeholder(new PlaceHolder("name", "Daver"),
-                        new PlaceHolder("age", 4, PlaceHolder.Type.INTEGER))
+                .placeholder(new PlaceHolder<>("name", "Daver"),
+                        new PlaceHolder<>("age", 4, PlaceHolder.Type.INTEGER))
                 .send(user);
 
         UniverseHub.getLanguageManager().get(Language.ENGLISH, DemoKeys.MSG)

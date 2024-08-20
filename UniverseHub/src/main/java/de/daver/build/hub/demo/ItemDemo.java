@@ -1,9 +1,6 @@
 package de.daver.build.hub.demo;
 
-import de.daver.build.hub.api.item.ItemBuilder;
-import de.daver.build.hub.api.util.EnchantmentBuilder;
-import de.daver.build.hub.api.item.Item;
-import de.daver.build.hub.api.item.Material;
+import de.daver.build.hub.api.item.*;
 import de.daver.build.hub.api.util.ClickType;
 import de.daver.build.hub.api.util.User;
 
@@ -29,7 +26,9 @@ public class ItemDemo {
         Item i3 = ItemBuilder.create(Material.STONE)
                 .displayName("Spiky Stone")
                 .addLoreLine("This one is enchanted")
-                .enchant(EnchantmentBuilder.create("sharpness").level(10).build())
+                .enchant(EnchantmentBuilder.create(EnchantmentType.SHARPNESS)
+                        .level(10)
+                        .build())
                 .build();
 
         Item i4 = ItemBuilder.create(Material.STONE)
@@ -40,7 +39,7 @@ public class ItemDemo {
     }
 
     public void demoAction(User holder, Item item) {
-        holder.sendMessage("The wand has chosen you!");
+        holder.send("The wand has chosen you!");
     }
 
 }
