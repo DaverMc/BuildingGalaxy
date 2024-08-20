@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public interface UserManager {
 
-    List<User> getPlayers();
+    List<User> getOnlineUsers();
 
-    User getPlayer(UUID uuid);
+    User getUser(UUID uuid);
 
 }
