@@ -50,8 +50,7 @@ public class CommandImpl implements Command {
     }
 
     private static CommandImpl getSubCommandRecursive(CommandImpl root, List<String> args, int iteration) {
-        if (args.isEmpty()) return root;
-
+        if (args.isEmpty() || args.size() <= iteration) return root;
         String name = args.get(iteration);
         CommandImpl subCommand = root.arguments.values().stream()
                 .filter(argument -> argument.getPosition() == iteration)

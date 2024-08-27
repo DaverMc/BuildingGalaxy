@@ -14,10 +14,7 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class SpigotCommand extends BukkitCommand{
 
@@ -48,6 +45,7 @@ public class SpigotCommand extends BukkitCommand{
             if(commandSender instanceof Player player) sender = UniverseHub.gate().getUserManager().getUser(player.getUniqueId());
             else sender = UniverseHub.gate().getConsoleSender();
             if(!sender.hasPermission(subCommand.permission())) return false;
+            if(action == null) return false;
             return action.execute(sender, input);
         }
 
@@ -61,6 +59,7 @@ public class SpigotCommand extends BukkitCommand{
             User user = UniverseHub.gate().getUserManager().getUser(((Player) commandSender).getUniqueId());
             return subCommand.getArguments(listArgs.size() - 1).stream()
                     .map(Argument::getSuggestion)
+                    .filter(Objects::nonNull)
                     .map(suggestion -> suggestion.getSuggestions(user, input))
                     .flatMap(Collection::stream)
                     .toList();

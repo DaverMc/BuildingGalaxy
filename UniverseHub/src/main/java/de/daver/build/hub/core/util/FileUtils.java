@@ -26,4 +26,19 @@ public class FileUtils {
         }
     }
 
+    public static File createFile(File file) {
+        if(file.isDirectory()) {
+            if(!file.mkdirs()) return null;
+            return file;
+        }
+        try {
+            File parent = file.getParentFile();
+            if(!parent.exists() && !parent.mkdirs()) return null;
+            file.createNewFile(); //Ignored Return result because the file can be existing
+            return file;
+        } catch (IOException exception) {
+            return null;
+        }
+    }
+
 }

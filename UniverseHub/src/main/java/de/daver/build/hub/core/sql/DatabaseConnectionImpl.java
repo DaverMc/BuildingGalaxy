@@ -54,6 +54,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
             releaseConnection(connection);
             return transformer.transform(resultSet);
         } catch (SQLException exception)  {
+            exception.printStackTrace();
             return null;
         }
     }
@@ -66,6 +67,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
             releaseConnection(connection);
             return result;
         } catch (SQLException exception)  {
+            exception.printStackTrace();
             return false;
         }
     }

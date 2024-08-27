@@ -22,13 +22,16 @@ dependencies {
     implementation 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
 }
 
+String filePathS = 'C:\\Users\\denni\\Desktop\\Programmieren\\Spigot_1_21\\plugins'
+String filePathC = 'D:\\OneDrive\\04_Minecraft\\Servers\\Spigot-1-21\\plugins'
+
 jar {
     jar.archiveFileName = "${project.name}.jar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from configurations.runtimeClasspath.collect{
         it.isDirectory() ? it : zipTree(it)
     }
-    destinationDirectory = file('C:\\Users\\denni\\Desktop\\Programmieren\\Spigot_1_21\\plugins')
+    destinationDirectory = file(filePathC)
 }
 
 jar {

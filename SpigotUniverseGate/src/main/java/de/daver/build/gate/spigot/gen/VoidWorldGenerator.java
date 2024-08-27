@@ -24,4 +24,9 @@ public class VoidWorldGenerator extends ChunkGenerator implements WorldGenerator
     public boolean generate(WorldImpl world) {
         return false;
     }
+
+    @Override
+    public String id() {
+        return "void";
+    }
 }

@@ -38,13 +38,22 @@ public class WorldMasterImpl implements WorldMaster {
     @Override
     public void setDatabaseConnection(DatabaseConnection connection) {
         this.dbConnection = connection;
+        //SQL
+        String query ="CREATE TABLE IF NOT EXISTS world (\n" +
+                "    id VARCHAR(255) PRIMARY KEY\n" +
+                ");\n";
+
+        this.dbConnection.execute(query);
     }
 
     public World createWorld(String id, WorldGenerator generator, boolean load) {
         World world = new WorldImpl(id, generator, new ArrayList<>());
         world.setLoaded(load);
         worlds.put(id, world);
-        if(!dbConnection.execute("INSERT INTO")) throw new RuntimeException("Database not found!");
+        //SQL
+        String query = "INSERT INTO world (id)\n" +
+                "VALUES ('"+ world.getId() + "');\n";
+        if(!dbConnection.execute(query)) throw new RuntimeException("Database not found!");
         UniverseHub.gate().getWorldSlave().createWorld(world);
         if(!load) UniverseHub.gate().getWorldSlave().unloadWorld(world);
         return world;
@@ -138,9 +147,10 @@ public class WorldMasterImpl implements WorldMaster {
 
     public void loadAll() {
         this.worlds.putAll(dbConnection
-                .executeQuery("SELECT * FROM",
+                .executeQuery("SELECT * FROM world",
                         ResultSetTransformer.hashMap(new StringResultSetTransformer("id"),
                                 new WorldResultSetTransformer())));
+        if(this.worlds.isEmpty()) return; //TODO
         this.worlds.values().stream()
                 .filter(World::isLoaded)
                 .forEach(UniverseHub.gate().getWorldSlave()::createWorld);

@@ -2,6 +2,7 @@ package de.daver.build.hub.api.gate;
 
 import de.daver.build.hub.api.util.Sender;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 public interface PlattformGate {
@@ -24,4 +25,5 @@ public interface PlattformGate {
 
     Sender getConsoleSender();
 
+    File getMainDirectory();
 }

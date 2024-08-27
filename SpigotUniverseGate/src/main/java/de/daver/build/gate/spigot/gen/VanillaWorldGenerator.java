@@ -9,4 +9,9 @@ public class VanillaWorldGenerator implements WorldGenerator {
     public boolean generate(WorldImpl world) {
         return false;
     }
+
+    @Override
+    public String id() {
+        return "vanilla";
+    }
 }

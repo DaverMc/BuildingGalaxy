@@ -1,6 +1,8 @@
 package de.daver.build.gate.spigot;
 
 import de.daver.build.gate.spigot.command.SpigotCommandRegistrator;
+import de.daver.build.gate.spigot.gen.VanillaWorldGenerator;
+import de.daver.build.gate.spigot.gen.VoidWorldGenerator;
 import de.daver.build.gate.spigot.gui.GuiListener;
 import de.daver.build.gate.spigot.gui.SpigotGuiConnection;
 import de.daver.build.gate.spigot.user.SpigotConsole;
@@ -8,9 +10,12 @@ import de.daver.build.gate.spigot.user.SpigotUserManager;
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.gate.*;
 import de.daver.build.hub.api.util.Sender;
+import de.daver.build.hub.api.world.WorldMaster;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
@@ -24,6 +29,7 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
     @Override
     public void onEnable() {
+        UniverseHub.getWorldMaster().setWorldContainer(this.getServer().getWorldContainer());
         this.userManager = new SpigotUserManager();
         registerListeners();
         adapter.onInitialisation();
@@ -77,6 +83,11 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
     @Override
     public Sender getConsoleSender() {
         return new SpigotConsole();
+    }
+
+    @Override
+    public File getMainDirectory() {
+        return this.getDataFolder();
     }
 
 

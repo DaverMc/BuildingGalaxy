@@ -9,14 +9,4 @@ public class BuildersUniverseSpigotGate extends SpigotUniverseGate {
     public BuildersUniverseSpigotGate() {
         super(new BuildersUniverse());
     }
-
-    @Override
-    public void onEnable() {
-        UniverseHub.instance().onInitialisation();
-    }
-
-    @Override
-    public void onDisable() {
-        UniverseHub.instance().onTermination();
-    }
 }

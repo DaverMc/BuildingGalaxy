@@ -1,5 +1,6 @@
 package de.daver.build.gate.spigot.user;
 
+import de.daver.build.hub.api.lang.Language;
 import de.daver.build.hub.api.util.User;
 import org.bukkit.entity.Player;
 
@@ -11,6 +12,11 @@ public class SpigotUser implements User {
 
     public SpigotUser(Player player) {
         this.player = player;
+    }
+
+    @Override
+    public Language getLanguage() {
+        return Language.ENGLISH;
     }
 
     @Override
