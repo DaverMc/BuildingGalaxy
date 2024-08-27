@@ -20,6 +20,7 @@ public class LanguageManagerImpl implements LanguageManager {
         this.languageFiles = new HashMap<>();
     }
 
+    @Override
     public void init(Class<? extends LanguageKey> keyEnum, Language... languages) {
         this.languageFiles.clear();
         for (Language language : languages) {
@@ -34,10 +35,9 @@ public class LanguageManagerImpl implements LanguageManager {
         }
     }
 
-    public MessageBuilderImpl get(Language language, LanguageKey key) {
-        LanguageFile file = this.languageFiles.get(language);
-        if (file == null) return new MessageBuilderImpl(language.getShortForm());
-        return new MessageBuilderImpl(file.getRawMessage(key));
+    @Override
+    public MessageBuilderImpl get(LanguageKey key) {
+        return new MessageBuilderImpl(this, key);
     }
 
     @Override
@@ -45,4 +45,15 @@ public class LanguageManagerImpl implements LanguageManager {
         this.fileLocation = directory;
     }
 
+    @Override
+    public Language getDefaultLanguage() {
+        return Language.ENGLISH; //TODO make it configurable
+    }
+
+    protected String getRaw(Language language, LanguageKey key) {
+        if(language == null) language = getDefaultLanguage();
+        LanguageFile file = languageFiles.get(language);
+        if (file == null) return language.getShortForm();
+        return file.getRawMessage(key);
+    }
 }

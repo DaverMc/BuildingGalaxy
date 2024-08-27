@@ -17,6 +17,7 @@ public class WorldMasterImpl implements WorldMaster {
 
     private final Map<String, World> worlds;
     private final Map<UUID, String> invitedUsers;
+    private final Map<String, WorldGenerator> generators;
 
     private File worldContainer;
     private File importContainer;
@@ -25,13 +26,13 @@ public class WorldMasterImpl implements WorldMaster {
     public WorldMasterImpl() {
         this.invitedUsers = new HashMap<>();
         this.worlds = new HashMap<>();
-        }
+        this.generators = new HashMap<>();
+    }
 
     @Override
     public void setWorldContainer(File worldContainer) {
         this.worldContainer = worldContainer;
         this.importContainer = new File(worldContainer.getParentFile(), "importWorlds"); //TODO Variable path
-
     }
 
     @Override
@@ -149,5 +150,20 @@ public class WorldMasterImpl implements WorldMaster {
         worlds.values().stream()
                 .filter(World::isLoaded)
                 .forEach(UniverseHub.gate().getWorldSlave()::unloadWorld);
+    }
+
+    @Override
+    public WorldGenerator getGenerator(String id) {
+        return this.generators.get(id);
+    }
+
+    @Override
+    public void addGenerator(WorldGenerator generator) {
+        this.generators.put(generator.id().toLowerCase(), generator);
+    }
+
+    @Override
+    public Collection<WorldGenerator> getGenerators() {
+        return this.generators.values();
     }
 }

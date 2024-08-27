@@ -17,16 +17,17 @@ public class MessageDemo {
     public void demo() {
         UniverseHub.getLanguageManager().init(DemoKeys.class, Language.BENGALI, Language.GERMAN, Language.ENGLISH);
 
-        UniverseHub.getLanguageManager().get(Language.GERMAN, DemoKeys.MSG)
-                .placeholder(new PlaceHolder<>("name", "Daver"),
-                        new PlaceHolder<>("age", 4, PlaceHolder.Type.INTEGER))
+        UniverseHub.getLanguageManager().get(DemoKeys.MSG)
+                .placeholder(new PlaceHolder<>("name", "Daver"))
+                .placeholder(new PlaceHolder<>("age", 4, PlaceHolder.Type.INTEGER))
                 .send(user);
 
-        UniverseHub.getLanguageManager().get(Language.ENGLISH, DemoKeys.MSG)
+        UniverseHub.getLanguageManager().get(DemoKeys.MSG)
                 .broadcast(new ArrayList<>());
 
-        String message = UniverseHub.getLanguageManager().get(Language.ARABIC, DemoKeys.MSG)
-                .toString();
+        String message = UniverseHub.getLanguageManager().get(DemoKeys.MSG)
+                .language(Language.ARABIC)
+                .toMessage();
         System.out.println(message);
     }
 

@@ -12,8 +12,6 @@ public interface CommandBuilder {
 
     CommandBuilder arguments(Argument...arguments);
 
-    //CommandBuilder action(Action<? super Sender> action);
-
     CommandBuilder subCommands(int position, Command...subCommands);
 
     Command build();

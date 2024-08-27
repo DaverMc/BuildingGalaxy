@@ -42,4 +42,9 @@ public interface WorldMaster {
 
     void clear();
 
+    WorldGenerator getGenerator(String id);
+
+    void addGenerator(WorldGenerator generator);
+
+    Collection<WorldGenerator> getGenerators();
 }

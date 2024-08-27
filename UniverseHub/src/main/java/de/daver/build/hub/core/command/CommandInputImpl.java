@@ -16,20 +16,30 @@ public class CommandInputImpl implements CommandInput {
         this.command = command;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> T get(String key) {
         Argument argument = command.getArgument(key);
         if (argument == null) return null;
-        return (T) args.get(argument.getPosition());
+        return argument.get(this.args.get(argument.getPosition()));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> T get(int index) {
         List<Argument> argument = command.getArguments(index);
         if (argument == null || argument.isEmpty()) return null;
-        return (T) argument.get(0);
+        return argument.get(0).get(getRaw(index));
+    }
+
+    @Override
+    public String getRaw(String key) {
+        Argument argument = command.getArgument(key);
+        if (argument == null) return null;
+        return this.args.get(argument.getPosition());
+    }
+
+    @Override
+    public String getRaw(int index) {
+        return this.args.get(index);
     }
 
 }

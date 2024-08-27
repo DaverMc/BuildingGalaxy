@@ -6,8 +6,9 @@ public interface LanguageManager {
 
     void init(Class<? extends LanguageKey> keyEnum, Language... languages);
 
-    MessageBuilder get(Language language, LanguageKey key);
+    MessageBuilder get(LanguageKey key);
 
     void setFileLocation(File directory);
 
+    Language getDefaultLanguage();
 }

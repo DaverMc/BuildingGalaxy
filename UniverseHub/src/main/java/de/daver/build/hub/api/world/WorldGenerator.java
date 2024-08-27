@@ -6,4 +6,6 @@ public interface WorldGenerator {
 
     boolean generate(WorldImpl world);
 
+    String id();
+
 }
