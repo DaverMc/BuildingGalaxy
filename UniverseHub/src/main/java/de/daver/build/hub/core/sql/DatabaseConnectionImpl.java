@@ -23,7 +23,6 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         this.connectionPoolSize = connectionPoolSize;
     }
 
-    // Methode zur Wiederverwendung von Verbindungen aus dem Pool oder zur Erstellung einer neuen Verbindung
     private Connection getConnection() throws SQLException {
         Connection connection = findAvailableConnection();
         if (connection == null) {
@@ -51,11 +50,9 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         connectionPool.put(connection, false);
     }
 
-    // Methode zur Rückgabe der Verbindung in den Pool
     private void releaseConnection(Connection connection) {
-        if (connectionPool.containsKey(connection)) {
+        if (connectionPool.containsKey(connection))
             connectionPool.put(connection, true);
-        }
         maintainConnectionPoolSize();
     }
 
@@ -69,7 +66,6 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         }
     }
 
-    // Methode zur Ausführung einer Query mit ResultSet-Transformation
     public <T> T executeQuery(String sql, ResultSetTransformer<T> transformer, Object... params) {
         Connection connection = null;
         try {
@@ -87,7 +83,6 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         }
     }
 
-    // Methode zur Ausführung einer nicht-abfragenden SQL-Anweisung
     public boolean execute(String sql, Object... params) {
         Connection connection = null;
         try {
@@ -104,7 +99,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         }
     }
 
-    // Hilfsmethode zur Vorbereitung eines PreparedStatement
+
     private PreparedStatement prepareStatement(Connection connection, String sql, Object... params) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(sql);
         for (int i = 0; i < params.length; i++) {
