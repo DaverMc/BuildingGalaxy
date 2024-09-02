@@ -30,7 +30,6 @@ public class UserManagerImpl implements UserManager {
     @Override
     public User getUser(UUID uuid) {
         //TODO If Offline check database
-        System.out.println(uuid);
         return this.users.get(uuid);
     }
 }

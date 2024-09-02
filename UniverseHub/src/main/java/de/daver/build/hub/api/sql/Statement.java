@@ -5,6 +5,8 @@ import de.daver.build.hub.core.sql.statement.*;
 
 public interface Statement {
 
+    //TODO Refactor
+
     static CreateTableStatement createTable(String tableName) {
         return new CreateTableStatement(tableName);
     }

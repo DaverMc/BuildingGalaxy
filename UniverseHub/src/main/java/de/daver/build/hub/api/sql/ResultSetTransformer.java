@@ -25,7 +25,6 @@ public interface ResultSetTransformer <T> {
 
     static <K, V> ResultSetTransformer<Map<K, V>> hashMap(ResultSetTransformer<K> keyTransformer, ResultSetTransformer<V> valueTransformer) {
         return resultSet -> {
-            System.out.println("MAP");
             Map<K, V> map = new HashMap<>();
             while(resultSet.next()) {
                 K key = keyTransformer.transform(resultSet);

@@ -8,5 +8,6 @@ public class BuildersUniverseSpigotGate extends SpigotUniverseGate {
 
     public BuildersUniverseSpigotGate() {
         super(new BuildersUniverse());
+        System.out.println("D1");
     }
 }

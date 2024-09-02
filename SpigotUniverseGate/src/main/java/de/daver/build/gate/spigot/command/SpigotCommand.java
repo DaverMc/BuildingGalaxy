@@ -44,15 +44,21 @@ public class SpigotCommand extends BukkitCommand{
             Sender sender;
             if(commandSender instanceof Player player) sender = UniverseHub.gate().getUserManager().getUser(player.getUniqueId());
             else sender = UniverseHub.gate().getConsoleSender();
-            if(!sender.hasPermission(subCommand.permission())) return false;
-            if(action == null) return false;
+            if(!sender.hasPermission(subCommand.permission())) {
+                sender.send("NO permission!"); //TODO
+                return false;
+            }
+            if(action == null) {
+                sender.send("NO ACTION!"); //TODO
+                return false;
+            }
             return action.execute(sender, input);
         }
 
         @Override
         @NotNull
         public List<String> tabComplete(@NotNull CommandSender commandSender, @NotNull String alias, String[] args, Location location) throws IllegalArgumentException {
-            if(commandSender instanceof ConsoleCommandSender) return new ArrayList<>();
+            /*if(commandSender instanceof ConsoleCommandSender) return new ArrayList<>();
             List<String> listArgs = new ArrayList<>(Arrays.asList(args));
             Command subCommand = this.command.getSubCommand(listArgs);
             CommandInputImpl input = new CommandInputImpl(subCommand, listArgs);
@@ -63,5 +69,8 @@ public class SpigotCommand extends BukkitCommand{
                     .map(suggestion -> suggestion.getSuggestions(user, input))
                     .flatMap(Collection::stream)
                     .toList();
+
+             */
+            return Collections.emptyList();
         }
 }

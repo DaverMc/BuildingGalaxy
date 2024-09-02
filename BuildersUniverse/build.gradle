@@ -23,7 +23,7 @@ dependencies {
 }
 
 String filePathS = 'C:\\Users\\denni\\Desktop\\Programmieren\\Spigot_1_21\\plugins'
-String filePathC = 'D:\\OneDrive\\04_Minecraft\\Servers\\Spigot-1-21\\plugins'
+//String filePathC = 'D:\\OneDrive\\04_Minecraft\\Servers\\Spigot-1-21\\plugins'
 
 jar {
     jar.archiveFileName = "${project.name}.jar"
@@ -31,7 +31,7 @@ jar {
     from configurations.runtimeClasspath.collect{
         it.isDirectory() ? it : zipTree(it)
     }
-    destinationDirectory = file(filePathC)
+    destinationDirectory = file(filePathS)
 }
 
 jar {

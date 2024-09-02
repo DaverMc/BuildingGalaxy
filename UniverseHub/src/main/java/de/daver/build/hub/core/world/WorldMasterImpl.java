@@ -3,7 +3,6 @@ package de.daver.build.hub.core.world;
 import de.daver.build.hub.UniverseHub;
 import de.daver.build.hub.api.sql.DatabaseConnection;
 import de.daver.build.hub.api.util.User;
-import de.daver.build.hub.api.world.World;
 import de.daver.build.hub.api.world.WorldGenerator;
 import de.daver.build.hub.api.world.WorldMaster;
 import de.daver.build.hub.api.sql.ResultSetTransformer;
@@ -22,7 +21,7 @@ public class WorldMasterImpl implements WorldMaster {
 
     private static final String TABLE_NAME = "worlds";
 
-    private final Map<String, World> worlds;
+    private final Map<String, de.daver.build.hub.api.world.World> worlds;
     private final Map<UUID, String> invitedUsers;
     private final Map<String, WorldGenerator> generators;
 
@@ -58,14 +57,14 @@ public class WorldMasterImpl implements WorldMaster {
         this.dbConnection.execute(sqlQuery);
     }
 
-    private String allowedUsersToString(World world) {
+    private String allowedUsersToString(de.daver.build.hub.api.world.World world) {
         return world.getAllowedUsers().stream()
                 .map(UUID::toString)
                 .collect(Collectors.joining(","));
     }
 
-    public World createWorld(String id, WorldGenerator generator, boolean load) {
-        World world = new WorldImpl(id, generator, new ArrayList<>());
+    public de.daver.build.hub.api.world.World createWorld(String id, WorldGenerator generator, boolean load) {
+        de.daver.build.hub.api.world.World world = new WorldImpl(id, generator, new ArrayList<>());
         world.setLoaded(load);
         worlds.put(id, world);
         String sqlQuery = Statement.insertInto(TABLE_NAME)
@@ -87,13 +86,13 @@ public class WorldMasterImpl implements WorldMaster {
         return world;
     }
 
-    public World importWorld(String filePath, String id, WorldGenerator generator, boolean load) {
+    public de.daver.build.hub.api.world.World importWorld(String filePath, String id, WorldGenerator generator, boolean load) {
         if(!FileUtils.copyFile(new File(importContainer, filePath), worldContainer)) return null;
         return createWorld(id, generator, load);
     }
 
     public boolean deleteWorld(String id) {
-        World world = getWorld(id);
+        de.daver.build.hub.api.world.World world = getWorld(id);
         if(world == null) return false;
         UniverseHub.gate().getWorldSlave().unloadWorld(world);
         if(!FileUtils.deleteFile(new File(worldContainer, world.getId()))) return false;
@@ -106,7 +105,7 @@ public class WorldMasterImpl implements WorldMaster {
     }
 
     public boolean loadWorld(String id) {
-        World world = getWorld(id);
+        de.daver.build.hub.api.world.World world = getWorld(id);
         if(world == null) return false;
         world.setLoaded(true);
         UniverseHub.gate().getWorldSlave().createWorld(world);
@@ -118,7 +117,7 @@ public class WorldMasterImpl implements WorldMaster {
     }
 
     public boolean unloadWorld(String id) {
-        World world = getWorld(id);
+        de.daver.build.hub.api.world.World world = getWorld(id);
         if(world == null) return false;
         world.setLoaded(false);
         UniverseHub.gate().getWorldSlave().unloadWorld(world);
@@ -130,7 +129,7 @@ public class WorldMasterImpl implements WorldMaster {
     }
 
     public List<UUID> addAllowed(String id, UUID...userIds) {
-        World world = getWorld(id);
+        de.daver.build.hub.api.world.World world = getWorld(id);
         List<UUID> failedUserIds = new ArrayList<>();
         if(world == null) return failedUserIds;
         for(UUID uuid : userIds) if(!world.addUser(uuid)) failedUserIds.add(uuid);
@@ -143,7 +142,7 @@ public class WorldMasterImpl implements WorldMaster {
     }
 
     public List<UUID> removeAllowed(String id, UUID...userIds) {
-        World world = getWorld(id);
+        de.daver.build.hub.api.world.World world = getWorld(id);
         List<UUID> failedUserIds = new ArrayList<>();
         if(world == null) return failedUserIds;
         for(UUID uuid : userIds) {
@@ -163,7 +162,7 @@ public class WorldMasterImpl implements WorldMaster {
 
     public boolean isPermitted(User user, String newWorldId) {
         if(user.hasPermission("world.enter-all")) return true;
-        World world = getWorld(newWorldId);
+        de.daver.build.hub.api.world.World world = getWorld(newWorldId);
         if(world == null) return false;
         if(world.isAllowed(user.getUUID())) return true;
         if(invitedUsers.containsKey(user.getUUID())) {
@@ -174,18 +173,18 @@ public class WorldMasterImpl implements WorldMaster {
     }
 
     public boolean teleportToWorld(User user, String worldId) {
-        World world = getWorld(worldId);
+        de.daver.build.hub.api.world.World world = getWorld(worldId);
         if(world == null) return false;
         if(!isPermitted(user, worldId)) return false;
         if(!world.isLoaded()) loadWorld(worldId);
         return UniverseHub.gate().getWorldSlave().sendTo(user, world);
     }
 
-    public World getWorld(String id) {
+    public de.daver.build.hub.api.world.World getWorld(String id) {
         return worlds.get(id);
     }
 
-    public Collection<World> getWorlds() {
+    public Collection<de.daver.build.hub.api.world.World> getWorlds() {
         return this.worlds.values();
     }
 
@@ -196,18 +195,18 @@ public class WorldMasterImpl implements WorldMaster {
 
         var keyTransformer = new StringResultSetTransformer("id");
         var valueTransformer = new WorldResultSetTransformer();
-        Map<String, World> worlds = dbConnection.executeQuery(sqlQuery, ResultSetTransformer.hashMap(keyTransformer, valueTransformer));
+        Map<String, de.daver.build.hub.api.world.World> worlds = dbConnection.executeQuery(sqlQuery, ResultSetTransformer.hashMap(keyTransformer, valueTransformer));
         this.worlds.putAll(worlds);
 
         if(this.worlds.isEmpty()) return; //TODO
         this.worlds.values().stream()
-                .filter(World::isLoaded)
+                .filter(de.daver.build.hub.api.world.World::isLoaded)
                 .forEach(UniverseHub.gate().getWorldSlave()::createWorld);
     }
 
     public void clear() {
         worlds.values().stream()
-                .filter(World::isLoaded)
+                .filter(de.daver.build.hub.api.world.World::isLoaded)
                 .forEach(UniverseHub.gate().getWorldSlave()::unloadWorld);
     }
 

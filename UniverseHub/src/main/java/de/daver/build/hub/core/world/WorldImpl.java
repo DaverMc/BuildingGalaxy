@@ -1,12 +1,11 @@
 package de.daver.build.hub.core.world;
 
-import de.daver.build.hub.api.world.World;
 import de.daver.build.hub.api.world.WorldGenerator;
 
 import java.util.List;
 import java.util.UUID;
 
-public class WorldImpl implements World {
+public class WorldImpl implements de.daver.build.hub.api.world.World {
 
     private final String id;
     private final WorldGenerator generator;

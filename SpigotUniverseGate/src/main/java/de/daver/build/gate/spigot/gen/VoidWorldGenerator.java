@@ -1,8 +1,11 @@
 package de.daver.build.gate.spigot.gen;
 
+import de.daver.build.hub.api.world.World;
 import de.daver.build.hub.api.world.WorldGenerator;
 import de.daver.build.hub.core.world.WorldImpl;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.WorldCreator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +24,10 @@ public class VoidWorldGenerator extends ChunkGenerator implements WorldGenerator
     }
 
     @Override
-    public boolean generate(WorldImpl world) {
-        return false;
+    public boolean generate(World world) {
+        WorldCreator creator = new WorldCreator(world.getId());
+        creator.generator(this);
+        return creator.createWorld() != null;
     }
 
     @Override

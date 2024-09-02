@@ -1,6 +1,7 @@
 package de.daver.build.gate.spigot;
 
 import de.daver.build.gate.spigot.command.SpigotCommandRegistrator;
+import de.daver.build.gate.spigot.gen.SpigotWorldSlave;
 import de.daver.build.gate.spigot.gen.VanillaWorldGenerator;
 import de.daver.build.gate.spigot.gen.VoidWorldGenerator;
 import de.daver.build.gate.spigot.gui.GuiListener;
@@ -31,6 +32,7 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
     public void onEnable() {
         UniverseHub.getWorldMaster().setWorldContainer(this.getServer().getWorldContainer());
         this.userManager = new SpigotUserManager();
+        System.out.println("USER MANAGER");
         registerListeners();
         adapter.onInitialisation();
     }
@@ -72,7 +74,7 @@ public class SpigotUniverseGate extends JavaPlugin implements PlattformGate {
 
     @Override
     public WorldSlave getWorldSlave() {
-        return null;
+        return new SpigotWorldSlave();
     }
 
     @Override
