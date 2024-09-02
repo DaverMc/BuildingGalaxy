@@ -64,4 +64,14 @@ public class WorldImpl implements World {
     public boolean isAllowed(UUID uuid) {
         return allowedUsers.contains(uuid);
     }
+
+    @Override
+    public List<UUID> getAllowedUsers() {
+        return this.allowedUsers;
+    }
+
+    @Override
+    public boolean isOpen() {
+        return this.open;
+    }
 }

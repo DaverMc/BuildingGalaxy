@@ -1,5 +1,6 @@
 package de.daver.build.hub.api.world;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface World {
@@ -24,4 +25,7 @@ public interface World {
 
     boolean isAllowed(UUID uuid);
 
+    List<UUID> getAllowedUsers();
+
+    boolean isOpen();
 }

@@ -7,13 +7,20 @@ import de.daver.build.hub.api.world.World;
 import de.daver.build.hub.api.world.WorldGenerator;
 import de.daver.build.hub.api.world.WorldMaster;
 import de.daver.build.hub.api.sql.ResultSetTransformer;
+import de.daver.build.hub.api.sql.ColumnType;
+import de.daver.build.hub.api.sql.Condition;
+import de.daver.build.hub.api.sql.Statement;
 import de.daver.build.hub.core.sql.transformer.StringResultSetTransformer;
 import de.daver.build.hub.core.util.FileUtils;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WorldMasterImpl implements WorldMaster {
+
+
+    private static final String TABLE_NAME = "worlds";
 
     private final Map<String, World> worlds;
     private final Map<UUID, String> invitedUsers;
@@ -38,22 +45,43 @@ public class WorldMasterImpl implements WorldMaster {
     @Override
     public void setDatabaseConnection(DatabaseConnection connection) {
         this.dbConnection = connection;
-        //SQL
-        String query ="CREATE TABLE IF NOT EXISTS world (\n" +
-                "    id VARCHAR(255) PRIMARY KEY\n" +
-                ");\n";
 
-        this.dbConnection.execute(query);
+        String sqlQuery = Statement.createTable(TABLE_NAME)
+                .ifNotExists(true)
+                .column("id", new ColumnType.Varchar(255), true)
+                .column("generatorId", new ColumnType.Varchar(255))
+                .column("loaded", ColumnType.BOOLEAN)
+                .column("open", ColumnType.BOOLEAN)
+                .column("allowedUsers", ColumnType.TEXT)
+                .build();
+
+        this.dbConnection.execute(sqlQuery);
+    }
+
+    private String allowedUsersToString(World world) {
+        return world.getAllowedUsers().stream()
+                .map(UUID::toString)
+                .collect(Collectors.joining(","));
     }
 
     public World createWorld(String id, WorldGenerator generator, boolean load) {
         World world = new WorldImpl(id, generator, new ArrayList<>());
         world.setLoaded(load);
         worlds.put(id, world);
-        //SQL
-        String query = "INSERT INTO world (id)\n" +
-                "VALUES ('"+ world.getId() + "');\n";
-        if(!dbConnection.execute(query)) throw new RuntimeException("Database not found!");
+        String sqlQuery = Statement.insertInto(TABLE_NAME)
+                .column("id")
+                .column("generatorId")
+                .column("loaded")
+                .column("open")
+                .column("allowedUsers")
+                .build();
+
+        dbConnection.execute(sqlQuery, world.getId(),
+                world.getGenerator().id(),
+                world.isLoaded(),
+                world.isOpen(),
+                allowedUsersToString(world));
+
         UniverseHub.gate().getWorldSlave().createWorld(world);
         if(!load) UniverseHub.gate().getWorldSlave().unloadWorld(world);
         return world;
@@ -69,7 +97,11 @@ public class WorldMasterImpl implements WorldMaster {
         if(world == null) return false;
         UniverseHub.gate().getWorldSlave().unloadWorld(world);
         if(!FileUtils.deleteFile(new File(worldContainer, world.getId()))) return false;
-        dbConnection.execute("DELETE FROM ");
+        String sqlQuery = Statement.deleteFrom(TABLE_NAME)
+                        .where(new Condition.Bool("id", "=", id))
+                        .build();
+        dbConnection.execute(sqlQuery);
+
         return worlds.remove(world.getId()) != null;
     }
 
@@ -78,8 +110,11 @@ public class WorldMasterImpl implements WorldMaster {
         if(world == null) return false;
         world.setLoaded(true);
         UniverseHub.gate().getWorldSlave().createWorld(world);
-        dbConnection.execute("UPDATE SET");
-        return true;
+        String sqlQuery = Statement.update(TABLE_NAME)
+                .column("loaded")
+                .where(new Condition.Bool("id", "=", id))
+                .build();
+        return dbConnection.execute(sqlQuery, true);
     }
 
     public boolean unloadWorld(String id) {
@@ -87,18 +122,23 @@ public class WorldMasterImpl implements WorldMaster {
         if(world == null) return false;
         world.setLoaded(false);
         UniverseHub.gate().getWorldSlave().unloadWorld(world);
-        dbConnection.execute("UPDATE SET");
-        return true;
+        String sqlQuery = Statement.update(TABLE_NAME)
+                .column("loaded")
+                .where(new Condition.Bool("id", "=", id))
+                .build();
+        return dbConnection.execute(sqlQuery, false);
     }
 
     public List<UUID> addAllowed(String id, UUID...userIds) {
         World world = getWorld(id);
         List<UUID> failedUserIds = new ArrayList<>();
         if(world == null) return failedUserIds;
-        for(UUID uuid : userIds) {
-            if(!world.addUser(uuid)) failedUserIds.add(uuid);
-        }
-        dbConnection.execute("UPDATE SET");
+        for(UUID uuid : userIds) if(!world.addUser(uuid)) failedUserIds.add(uuid);
+        String sqlQuery = Statement.update(TABLE_NAME)
+                .column("allowedUsers")
+                .where(new Condition.Bool("id", "=", id))
+                .build();
+        dbConnection.execute(sqlQuery, allowedUsersToString(world));
         return failedUserIds;
     }
 
@@ -109,7 +149,11 @@ public class WorldMasterImpl implements WorldMaster {
         for(UUID uuid : userIds) {
             if(!world.removeUser(uuid)) failedUserIds.add(uuid);
         }
-        dbConnection.execute("UPDATE SET");
+        String sqlQuery = Statement.update(TABLE_NAME)
+                .column("allowedUsers")
+                .where(new Condition.Bool("id", "=", id))
+                .build();
+        dbConnection.execute(sqlQuery, allowedUsersToString(world));
         return failedUserIds;
     }
 
@@ -146,10 +190,15 @@ public class WorldMasterImpl implements WorldMaster {
     }
 
     public void loadAll() {
-        this.worlds.putAll(dbConnection
-                .executeQuery("SELECT * FROM world",
-                        ResultSetTransformer.hashMap(new StringResultSetTransformer("id"),
-                                new WorldResultSetTransformer())));
+        String sqlQuery = Statement.select()
+                .from(TABLE_NAME)
+                .build();
+
+        var keyTransformer = new StringResultSetTransformer("id");
+        var valueTransformer = new WorldResultSetTransformer();
+        Map<String, World> worlds = dbConnection.executeQuery(sqlQuery, ResultSetTransformer.hashMap(keyTransformer, valueTransformer));
+        this.worlds.putAll(worlds);
+
         if(this.worlds.isEmpty()) return; //TODO
         this.worlds.values().stream()
                 .filter(World::isLoaded)
