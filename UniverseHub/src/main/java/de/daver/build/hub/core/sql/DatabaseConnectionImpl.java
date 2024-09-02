@@ -14,7 +14,7 @@ import java.util.Map;
 public class DatabaseConnectionImpl implements DatabaseConnection {
 
     private final DatabaseDriver driver;
-    private final Map<Connection, Boolean> connectionPool; //True if usable
+    private final Map<Connection, Boolean> connectionPool; // True if usable
     private final int connectionPoolSize;
 
     public DatabaseConnectionImpl(DatabaseDriver driver, int connectionPoolSize) {
@@ -23,52 +23,93 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         this.connectionPoolSize = connectionPoolSize;
     }
 
+    // Methode zur Wiederverwendung von Verbindungen aus dem Pool oder zur Erstellung einer neuen Verbindung
     private Connection getConnection() throws SQLException {
-        Connection connection = connectionPool.keySet().stream()
-                .filter(connectionPool::get)
-                .findFirst().orElse(null);
-        if(connection == null) {
-            connection = driver.createConnection();
-            connectionPool.put(connection, true);
+        Connection connection = findAvailableConnection();
+        if (connection == null) {
+            connection = createNewConnection();
         }
-        connectionPool.put(connection, false);
+        markConnectionAsInUse(connection);
         return connection;
     }
 
+    private Connection findAvailableConnection() {
+        return connectionPool.entrySet().stream()
+                .filter(Map.Entry::getValue)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Connection createNewConnection() throws SQLException {
+        Connection connection = driver.createConnection();
+        connectionPool.put(connection, true);
+        return connection;
+    }
+
+    private void markConnectionAsInUse(Connection connection) {
+        connectionPool.put(connection, false);
+    }
+
+    // Methode zur Rückgabe der Verbindung in den Pool
     private void releaseConnection(Connection connection) {
-        if(connectionPool.containsKey(connection)) connectionPool.put(connection, true);
-        while(connectionPool.size() > connectionPoolSize) {
-            Connection connect = connectionPool.keySet().stream()
-                    .filter(con -> !connectionPool.get(con))
-                    .findFirst().orElse(null);
-            if(connect == null) break;
-            connectionPool.remove(connect);
+        if (connectionPool.containsKey(connection)) {
+            connectionPool.put(connection, true);
+        }
+        maintainConnectionPoolSize();
+    }
+
+    private void maintainConnectionPoolSize() {
+        while (connectionPool.size() > connectionPoolSize) {
+            connectionPool.entrySet().stream()
+                    .filter(Map.Entry::getValue)
+                    .map(Map.Entry::getKey)
+                    .findFirst()
+                    .ifPresent(connectionPool::remove);
         }
     }
 
-    public <T> T executeQuery(String sql, ResultSetTransformer<T> transformer, Object...params) {
+    // Methode zur Ausführung einer Query mit ResultSet-Transformation
+    public <T> T executeQuery(String sql, ResultSetTransformer<T> transformer, Object... params) {
+        Connection connection = null;
         try {
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            for(int i = 0; i < params.length; i++) statement.setObject(i + 1, params[i]);
-            ResultSet resultSet = statement.executeQuery();
-            releaseConnection(connection);
-            return transformer.transform(resultSet);
-        } catch (SQLException exception)  {
+            connection = getConnection();
+            try (PreparedStatement statement = prepareStatement(connection, sql, params);
+                 ResultSet resultSet = statement.executeQuery()) {
+                return transformer.transform(resultSet);
+            }
+        } catch (SQLException exception) {
             throw new RuntimeException(exception);
+        } finally {
+            if (connection != null) {
+                releaseConnection(connection);
+            }
         }
     }
 
-    public boolean execute(String sql, Object...params) {
+    // Methode zur Ausführung einer nicht-abfragenden SQL-Anweisung
+    public boolean execute(String sql, Object... params) {
+        Connection connection = null;
         try {
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            for(int i = 0; i < params.length; i++) statement.setObject(i + 1, params[i]);
-            boolean result = statement.execute();
-            releaseConnection(connection);
-            return result;
-        } catch (SQLException exception)  {
+            connection = getConnection();
+            try (PreparedStatement statement = prepareStatement(connection, sql, params)) {
+                return statement.execute();
+            }
+        } catch (SQLException exception) {
             throw new RuntimeException(exception);
+        } finally {
+            if (connection != null) {
+                releaseConnection(connection);
+            }
         }
+    }
+
+    // Hilfsmethode zur Vorbereitung eines PreparedStatement
+    private PreparedStatement prepareStatement(Connection connection, String sql, Object... params) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(sql);
+        for (int i = 0; i < params.length; i++) {
+            statement.setObject(i + 1, params[i]);
+        }
+        return statement;
     }
 }
