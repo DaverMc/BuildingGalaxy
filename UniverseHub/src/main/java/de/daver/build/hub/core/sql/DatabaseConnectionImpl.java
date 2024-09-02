@@ -50,6 +50,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
+            for(int i = 0; i < params.length; i++) statement.setObject(i + 1, params[i]);
             ResultSet resultSet = statement.executeQuery();
             releaseConnection(connection);
             return transformer.transform(resultSet);
@@ -62,6 +63,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
+            for(int i = 0; i < params.length; i++) statement.setObject(i + 1, params[i]);
             boolean result = statement.execute();
             releaseConnection(connection);
             return result;
